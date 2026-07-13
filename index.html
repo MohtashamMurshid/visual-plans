@@ -83,6 +83,7 @@
 
     <script>
       // Add a plan here and it is automatically sorted (newest first) and linked.
+      // Optional fields: repo, branch, pr (URL), author, model.
       const plans = [
         {
           title: "TS-API-Architect benchmark",
@@ -99,6 +100,10 @@
           href: "/coolify-hosting/",
           date: "2026-07-13",
           status: "published",
+          repo: "MohtashamMurshid/visual-plans",
+          branch: "main",
+          author: "Mohtasham",
+          model: "Fable 5",
         },
       ];
 
@@ -121,6 +126,19 @@
       if (plans.length === 0) {
         container.innerHTML = '<div class="empty">No plans published yet.</div>';
       } else {
+        const metaLine = (plan) => {
+          const parts = [];
+          if (plan.repo) parts.push(plan.repo.split("/").pop());
+          if (plan.branch) parts.push(plan.branch);
+          if (plan.pr) parts.push("PR");
+          if (plan.author) parts.push(plan.author);
+          if (plan.model) parts.push(plan.model);
+          if (!parts.length) return "";
+          return `<div class="plan-meta">${parts
+            .map((p) => `<span>${p}</span>`)
+            .join('<span class="sep">·</span>')}</div>`;
+        };
+
         const sorted = [...plans].sort((a, b) => b.date.localeCompare(a.date));
         container.innerHTML = sorted
           .map(
@@ -130,6 +148,7 @@
             <div class="plan-main">
               <h3>${plan.title}</h3>
               <p>${plan.description}</p>
+              ${metaLine(plan)}
             </div>
             <div class="plan-side">
               <span class="plan-date">${formatDate(plan.date)}</span>

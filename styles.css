@@ -175,6 +175,54 @@ h1 {
   color: var(--muted);
 }
 
+/* ---------- Plan details strip ---------- */
+.details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 56px;
+}
+
+.detail {
+  flex: 1 1 auto;
+  padding: 20px 24px 22px;
+  border-right: 1px solid var(--line-soft);
+}
+
+.detail:last-child {
+  border-right: 0;
+}
+
+.detail span {
+  display: block;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: 7px;
+}
+
+.detail b {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: 14.5px;
+}
+
+.detail a {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: 14.5px;
+  text-decoration: none;
+  border-bottom: 1px solid var(--line);
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.detail a:hover {
+  border-color: var(--muted);
+}
+
 /* ---------- Section head ---------- */
 .section-head {
   display: flex;
@@ -240,6 +288,21 @@ h1 {
   font-size: 13.5px;
   color: var(--muted);
   max-width: 560px;
+}
+
+.plan-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.plan-meta .sep {
+  color: var(--line);
 }
 
 .plan-side {
@@ -622,6 +685,16 @@ vp-donut {
   .footer {
     flex-direction: column;
     gap: 8px;
+  }
+  .details {
+    flex-direction: column;
+  }
+  .detail {
+    border-right: 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .detail:last-child {
+    border-bottom: 0;
   }
   .vp-row {
     grid-template-columns: 1fr;

@@ -41,8 +41,18 @@ passed as JSON in the `data` attribute; see `/components/` for live examples.
      href: "/my-new-plan/",
      date: "2026-07-20",        // ISO date — used for sorting
      status: "active",           // published | active | draft
+
+     // Optional — shown as a meta line under the description:
+     repo: "owner/repository",   // connected GitHub project
+     branch: "feature/thing",
+     pr: "https://github.com/owner/repo/pull/1",
+     author: "Mohtasham",
+     model: "Fable 5",           // AI model that authored the plan
    }
    ```
+
+3. Inside the plan page, add a `details` strip under the hero for the same
+   info (see `coolify-hosting/index.html` for the markup).
 
 Plans are sorted by `date` automatically, so ordering takes care of itself.
 
