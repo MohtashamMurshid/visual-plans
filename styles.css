@@ -175,6 +175,47 @@ h1 {
   color: var(--muted);
 }
 
+/* ---------- Report header (plan pages) ---------- */
+.report-head {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 56px;
+  align-items: center;
+  padding: 52px 0 48px;
+}
+
+.report-head .back {
+  margin-bottom: 22px;
+}
+
+.report-head h1 {
+  font-size: clamp(1.8rem, 3.4vw, 2.7rem);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  margin: 12px 0 16px;
+}
+
+.report-head .lede {
+  font-size: 14px;
+  line-height: 1.7;
+  max-width: 480px;
+}
+
+.report-aside {
+  border: 1px solid var(--line);
+  background: var(--bg-raised);
+  padding: 26px 28px 20px;
+}
+
+.report-aside .vp-component {
+  border: 0;
+  padding: 0;
+}
+
+.report-aside .vp-label {
+  margin-bottom: 18px;
+}
+
 /* ---------- Plan details strip ---------- */
 .details {
   display: flex;
@@ -229,7 +270,7 @@ h1 {
   align-items: baseline;
   justify-content: space-between;
   gap: 16px;
-  margin: 88px 0 26px;
+  margin: 64px 0 22px;
 }
 
 .section-head h2 {
@@ -685,6 +726,11 @@ vp-donut {
   .footer {
     flex-direction: column;
     gap: 8px;
+  }
+  .report-head {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 36px 0 32px;
   }
   .details {
     flex-direction: column;
