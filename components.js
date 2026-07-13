@@ -284,9 +284,10 @@ class VpProgress extends VpBase {
         })
       );
       if (milestones[i]) {
+        const textAnchor = i === 0 ? "start" : i === n - 1 ? "end" : "middle";
         svg.appendChild(
           svgEl("text", {
-            x, y: y + 34, "text-anchor": "middle",
+            x, y: y + 34, "text-anchor": textAnchor,
             fill: isNow ? GOLD : isDone ? MUTED : FAINT,
             "font-size": 11, "font-family": "Inter, sans-serif", "letter-spacing": "0.08em",
           }, milestones[i].toUpperCase())

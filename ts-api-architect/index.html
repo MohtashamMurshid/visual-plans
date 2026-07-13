@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#141414" />
+    <meta name="description" content="A private, reproducible benchmark for whether coding agents preserve TypeScript API architecture—not merely whether an endpoint passes tests." />
+    <title>TS-API-Architect — Visual Plans</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/components.js?v=20260713" defer></script>
+  </head>
+  <body>
+    <div class="dots"></div>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="/">mohtasham<span>.dev</span></a>
+        <span class="tag"><span class="dot"></span>Proposal · ready to build</span>
+      </header>
+
+      <section class="hero">
+        <a class="back" href="/">← All plans</a>
+        <div class="eyebrow">Benchmark proposal · 13 Jul 2026</div>
+        <h1>Does the patch<br />belong in the repo?</h1>
+        <p class="lede">
+          <b>TS-API-Architect</b> measures whether GPT, Claude, and future coding agents can extend a TypeScript API while preserving its local layering, type safety, tests, and scope—not just ship plausible endpoint code.
+        </p>
+        <hr class="hero-rule" />
+      </section>
+
+      <section class="stats">
+        <div class="stat"><b>5</b><span>Private API fixtures</span></div>
+        <div class="stat"><b>2</b><span>Implementer families, v0</span></div>
+        <div class="stat"><b>4</b><span>Evidence-backed score parts</span></div>
+        <div class="stat"><b>0</b><span>Hidden tests exposed to agents</span></div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <h2>Decision snapshot.</h2>
+          <p>What approval unlocks</p>
+        </div>
+        <div class="grid">
+          <article class="card">
+            <h3>Build</h3>
+            <ul>
+              <li>Private Fastify + Zod + Drizzle fixture pack.</li>
+              <li>Python runner with reproducible JSONL results.</li>
+              <li>OpenAI and Anthropic implementation adapters.</li>
+              <li>Static evidence report, not a vanity leaderboard.</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>Do not build yet</h3>
+            <ul>
+              <li>No public benchmark release or training dataset.</li>
+              <li>No production repository or secret is used.</li>
+              <li>No judge decides executable correctness.</li>
+              <li>No conclusion beyond the tested stacks and prompts.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <h2>The proof loop.</h2>
+          <p>Tests first; model opinions second</p>
+        </div>
+        <vp-flow label="One benchmark run" data='{"nodes":["Private fixture","Anonymous implementation","Hidden tests + static gates","Blinded GPT / Claude review","Auditable report"],"highlight":2}'></vp-flow>
+        <vp-stack label="Isolation boundary" data='[
+          {"label":"Public agent workspace","note":"starter repo · ticket · visible tests","highlight":true},
+          {"label":"Private evaluator workspace","note":"patch + hidden tests only"},
+          {"label":"Judge packet","note":"anonymous diff · public context · evidence"},
+          {"label":"Results store","note":"config · SHA · logs · score components"}
+        ]'></vp-stack>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <h2>What gets scored.</h2>
+          <p>A clean pass is not one number</p>
+        </div>
+        <vp-bar-chart label="Composite score — report every component" data='[
+          {"label":"Functional correctness","value":40,"display":"40%","highlight":true},
+          {"label":"TypeScript discipline","value":20,"display":"20%"},
+          {"label":"Architecture adherence","value":25,"display":"25%"},
+          {"label":"Scope quality","value":15,"display":"15%"}
+        ]'></vp-bar-chart>
+        <div class="grid">
+          <article class="card">
+            <h3>Deterministic reality</h3>
+            <ul>
+              <li>Hidden integration and regression tests.</li>
+              <li><code>tsc --noEmit</code>, lint, bounded command logs.</li>
+              <li>Unsafe TypeScript scan: <code>any</code>, ignores, unsafe casts.</li>
+              <li>Boundary scan: no ORM/DB dependency in HTTP routes.</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>Architecture review</h3>
+            <ul>
+              <li>Local module convention and dependency direction.</li>
+              <li>Thin routes; validation at I/O boundaries.</li>
+              <li>Domain invariants and error-contract consistency.</li>
+              <li>Minimal change; no speculative abstraction.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <h2>Build sequence.</h2>
+          <p>Small pilot before claims</p>
+        </div>
+        <vp-progress data='{"done":0,"total":6,"milestones":["Shell","Fixture","Gates","Agents","Judges","Pilot"]}'></vp-progress>
+        <div class="timeline" style="border-top: 0">
+          <article class="tl-step now">
+            <span class="tl-num">01</span>
+            <div><h3>Freeze the protocol</h3><p>Define result schema, exact prompt/tool condition, run budget, cost cap, and no-leak contract. Add a fake adapter first so the pipeline works without provider spend.</p></div>
+            <span class="tl-status">First</span>
+          </article>
+          <article class="tl-step">
+            <span class="tl-num">02</span>
+            <div><h3>Ship one good fixture</h3><p>Project invitations: owner-only invite, expiry, duplicate policy, Zod boundaries, uniform error envelope, hidden negative cases.</p></div>
+            <span class="tl-status">Proposed</span>
+          </article>
+          <article class="tl-step">
+            <span class="tl-num">03</span>
+            <div><h3>Make quality executable</h3><p>Run hidden tests, typecheck, lint, unsafe-escape scan, dependency-boundary scan, and focused diff/scope measurement in an evaluator-only workspace.</p></div>
+            <span class="tl-status">Proposed</span>
+          </article>
+          <article class="tl-step">
+            <span class="tl-num">04</span>
+            <div><h3>Add comparable agents</h3><p>Run OpenAI and Anthropic adapters with equivalent workspace, prompt, budget, temperature, tool policy, and timeout. Record exact model versions and provider failures.</p></div>
+            <span class="tl-status">Proposed</span>
+          </article>
+          <article class="tl-step">
+            <span class="tl-num">05</span>
+            <div><h3>Blind the judges</h3><p>Have GPT and Claude independently score anonymous diffs and rank A/B pairs. Require file-level evidence for every deduction; map identity only in aggregation.</p></div>
+            <span class="tl-status">Proposed</span>
+          </article>
+          <article class="tl-step">
+            <span class="tl-num">06</span>
+            <div><h3>Run a calibrated pilot</h3><p>Expand to five fixture families, calibrate on gold and trap patches with human labels, then run 5 fixtures × 2 models × 3 repetitions under a fixed budget.</p></div>
+            <span class="tl-status">Pilot</span>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <h2>The fixture set.</h2>
+          <p>Different failure modes, not five CRUD clones</p>
+        </div>
+        <div class="grid">
+          <article class="card"><h3>Vertical slice</h3><ul><li><b>Project invitations</b> — route → validation → use case → repository.</li><li>Targets auth, thin transport, response serialization.</li></ul></article>
+          <article class="card"><h3>Existing module extension</h3><ul><li><b>Team membership</b> — follow established local pattern.</li><li>Targets duplicate policy and error mapping.</li></ul></article>
+          <article class="card"><h3>Bug fix</h3><ul><li><b>Billing webhook</b> — idempotency and trust boundary.</li><li>Targets minimal correct change.</li></ul></article>
+          <article class="card"><h3>Cross-module change</h3><ul><li><b>Project archive</b> — transaction and authorization rules.</li><li>Targets consistent domain behavior.</li></ul></article>
+          <article class="card"><h3>Refactor</h3><ul><li><b>Search filters</b> — preserve behavior while simplifying.</li><li>Targets over-abstraction and regressions.</li></ul></article>
+          <article class="card"><h3>Calibration patches</h3><ul><li>Gold patch + deliberately bad but plausible alternatives.</li><li>Targets judge reliability and self-preference bias.</li></ul></article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <h2>Judge each other—safely.</h2>
+          <p>Cross-model review, not model theatre</p>
+        </div>
+        <vp-flow data='{"nodes":["GPT patch","Anonymous A/B labels","Claude judge","Evidence JSON","Bias + agreement report"],"highlight":3}'></vp-flow>
+        <div class="grid">
+          <article class="card"><h3>Required controls</h3><ul><li>Random A/B ordering and no provider/model names.</li><li>Gold patches, trap patches, and two human reviewers for calibration.</li><li>Judge invalidity is recorded, never silently repaired.</li></ul></article>
+          <article class="card"><h3>Report honestly</h3><ul><li>Functional pass@1 and invalid-run rate.</li><li>Cost per clean pass and latency.</li><li>Judge agreement, disagreement outliers, and self-preference rate.</li></ul></article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <h2>Risks worth managing.</h2>
+          <p>Before we create a leaderboard</p>
+        </div>
+        <div class="grid">
+          <article class="card"><h3>Overfit to one style</h3><ul><li>Use local consistency as the standard, not universal “clean architecture”.</li><li>Expand framework/API patterns only after v0 has signal.</li></ul></article>
+          <article class="card"><h3>Tool inequality</h3><ul><li>Run a strict equal-tools condition first.</li><li>Label any richer provider-specific agent condition separately.</li></ul></article>
+          <article class="card"><h3>Judge bias</h3><ul><li>Use anonymization, calibration, and human audit.</li><li>Never let judge score override executable gates.</li></ul></article>
+          <article class="card"><h3>Cost drift</h3><ul><li>Set an upfront USD cap and max turns per run.</li><li>Stop at the cap; follow pre-registered rerun policy.</li></ul></article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Approval to proceed.</h2><p>First implementation boundary</p></div>
+        <div class="callout">
+          <h3>Approve the v0 harness—not a grand benchmark yet.</h3>
+          <p>Next we build the runner shell, one private fixture, hidden-test isolation, deterministic gates, and a fake-agent end-to-end run. Only after that is green do we spend on live OpenAI/Claude pilot calls.</p>
+        </div>
+      </section>
+
+      <footer class="footer"><span>Visual Plan · TS-API-Architect</span><span>Private fixtures · reproducible evidence</span></footer>
+    </main>
+  </body>
+</html>
