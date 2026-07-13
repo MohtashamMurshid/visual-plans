@@ -1,18 +1,136 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#0b0d12" />
-  <title>Visual Plans — Mohtasham</title>
-  <style>
-    :root{--bg:#0b0d12;--panel:#12151d;--line:#252b38;--text:#f2f5fb;--muted:#9aa4b5;--blue:#78a6ff;--green:#3ddc97}*{box-sizing:border-box}body{margin:0;background:radial-gradient(760px 400px at 90% -5%,#29356355,transparent 62%),var(--bg);color:var(--text);font:15px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.shell{max-width:1000px;margin:auto;padding:26px 20px 72px}.top{display:flex;justify-content:space-between;align-items:center;padding-bottom:21px;border-bottom:1px solid var(--line)}.brand{font-weight:760;letter-spacing:-.03em}.brand span{color:var(--blue)}.badge{border:1px solid #236146;background:#12352255;color:var(--green);border-radius:999px;padding:5px 10px;font-size:12px}.hero{padding:68px 0 36px;max-width:760px}.eyebrow{font-weight:750;color:var(--blue);font-size:12px;letter-spacing:.12em;text-transform:uppercase}h1{font-size:clamp(2.7rem,7vw,5.4rem);line-height:.93;letter-spacing:-.068em;margin:15px 0 22px}.lede{font-size:18px;color:var(--muted);max-width:620px}.meta{display:flex;gap:10px;flex-wrap:wrap;margin:24px 0 52px}.chip{color:var(--muted);font-size:12px;border:1px solid var(--line);border-radius:999px;padding:6px 10px}.head{display:flex;justify-content:space-between;align-items:baseline;margin:0 0 14px}.head h2{font-size:20px;letter-spacing:-.04em;margin:0}.head p{color:var(--muted);font-size:13px;margin:0}.plans{display:grid;gap:12px}.plan{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:22px;text-decoration:none;color:inherit;transition:.18s transform,.18s border-color}.plan:hover{border-color:#5572b6;transform:translateY(-2px)}.plan-top{display:flex;justify-content:space-between;gap:16px;align-items:start}.plan h3{font-size:20px;letter-spacing:-.04em;margin:0 0 6px}.plan p{margin:0;color:var(--muted);max-width:650px}.route{font-size:12px;color:var(--blue);white-space:nowrap}.status{display:inline-block;margin-top:14px;color:var(--green);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}.how{margin-top:52px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.item{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:17px}.n{font-size:12px;color:var(--blue);font-weight:750}.item b{display:block;margin:7px 0 4px}.item span{font-size:13px;color:var(--muted)}footer{margin-top:52px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}@media(max-width:620px){.shell{padding:20px 16px 48px}.hero{padding:45px 0 28px}.top .badge{display:none}.head{display:block}.head p{margin-top:4px}.plan{padding:18px}.plan-top{display:block}.route{display:block;margin-top:12px}.how{grid-template-columns:1fr}h1{font-size:3.15rem}}
-  </style>
-</head>
-<body><main class="shell">
-  <header class="top"><div class="brand">mohtasham<span>.dev</span> / visual plans</div><div class="badge">Coolify hosted</div></header>
-  <section class="hero"><div class="eyebrow">One repository · many shareable plans</div><h1>Plans you can actually open on your phone.</h1><p class="lede">A living library for implementation plans, product roadmaps, and architecture decisions. Every plan is versioned in GitHub and deployed through Coolify.</p><div class="meta"><span class="chip">Source: MohtashamMurshid/visual-plans</span><span class="chip">Hosting: Coolify</span><span class="chip">HTTPS: verified</span></div></section>
-  <section><div class="head"><h2>Published plans</h2><p>Tap a card to open the full plan.</p></div><div class="plans"><a class="plan" href="/coolify-hosting/"><div class="plan-top"><div><h3>Coolify hosting foundation</h3><p>How we turned mohtasham-hermes into a reusable GitHub → Coolify → HTTPS demo platform, with the operational guardrails that keep it stable.</p></div><span class="route">/coolify-hosting →</span></div><span class="status">Published · 13 Jul 2026</span></a></div></section>
-  <section class="how"><div class="item"><span class="n">01</span><b>Write the plan</b><span>One visual route with milestones, decisions, risks, and approvals.</span></div><div class="item"><span class="n">02</span><b>Commit it</b><span>All plans live in this one GitHub repository as structured source.</span></div><div class="item"><span class="n">03</span><b>Share the link</b><span>Coolify deploys the same site; the route is ready for phone review.</span></div></section>
-  <footer>Visual Plans · Built for clear decisions, not buried markdown files.</footer>
-</main></body></html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#141414" />
+    <meta
+      name="description"
+      content="A living library of implementation plans, roadmaps, and architecture decisions — versioned in GitHub, shareable on any device."
+    />
+    <title>Visual Plans — Mohtasham</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500&display=swap"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="dots"></div>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="/">mohtasham<span>.dev</span></a>
+        <span class="tag"><span class="dot"></span>Coolify hosted</span>
+      </header>
+
+      <section class="hero">
+        <div class="eyebrow">Visual Plans · One repository</div>
+        <h1>Plans, made<br />to be read.</h1>
+        <p class="lede">
+          A living library for implementation plans, product roadmaps, and
+          architecture decisions. Every plan is versioned in GitHub and
+          deployed through Coolify.
+        </p>
+        <hr class="hero-rule" />
+      </section>
+
+      <section class="stats">
+        <div class="stat"><b id="stat-count">1</b><span>Published plans</span></div>
+        <div class="stat"><b>1</b><span>Repository</span></div>
+        <div class="stat"><b>∞</b><span>Shareable links</span></div>
+        <div class="stat"><b>HTTPS</b><span>Verified delivery</span></div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <h2>The index.</h2>
+          <p>Newest first</p>
+        </div>
+        <div class="plans" id="plans"></div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <h2>How it works.</h2>
+          <p>Write once, share anywhere</p>
+        </div>
+        <div class="steps">
+          <div class="step-card">
+            <span class="n">01</span>
+            <b>Write the plan</b>
+            <span>One visual route with milestones, decisions, and risks.</span>
+          </div>
+          <div class="step-card">
+            <span class="n">02</span>
+            <b>Commit it</b>
+            <span>Every plan lives in this GitHub repository as source.</span>
+          </div>
+          <div class="step-card">
+            <span class="n">03</span>
+            <b>Share the link</b>
+            <span>Coolify deploys the same site, ready for phone review.</span>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <span>Visual Plans</span>
+        <a href="/components/" style="text-decoration: none">Component library →</a>
+      </footer>
+    </main>
+
+    <script>
+      // Add a plan here and it is automatically sorted (newest first) and linked.
+      const plans = [
+        {
+          title: "Coolify hosting foundation",
+          description:
+            "Turning mohtasham-hermes into a reusable GitHub → Coolify → HTTPS demo platform.",
+          href: "/coolify-hosting/",
+          date: "2026-07-13",
+          status: "published",
+        },
+      ];
+
+      const statusLabels = {
+        published: "Published",
+        active: "In progress",
+        draft: "Draft",
+      };
+
+      const formatDate = (iso) =>
+        new Date(iso + "T00:00:00").toLocaleDateString("en-GB", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        });
+
+      const container = document.getElementById("plans");
+      document.getElementById("stat-count").textContent = plans.length;
+
+      if (plans.length === 0) {
+        container.innerHTML = '<div class="empty">No plans published yet.</div>';
+      } else {
+        const sorted = [...plans].sort((a, b) => b.date.localeCompare(a.date));
+        container.innerHTML = sorted
+          .map(
+            (plan, i) => `
+          <a class="plan" href="${plan.href}">
+            <span class="plan-index">${String(i + 1).padStart(2, "0")}</span>
+            <div class="plan-main">
+              <h3>${plan.title}</h3>
+              <p>${plan.description}</p>
+            </div>
+            <div class="plan-side">
+              <span class="plan-date">${formatDate(plan.date)}</span>
+              <span class="status ${plan.status}">${statusLabels[plan.status] ?? plan.status}</span>
+            </div>
+          </a>`
+          )
+          .join("");
+      }
+    </script>
+  </body>
+</html>

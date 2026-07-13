@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#141414" />
+    <meta
+      name="description"
+      content="Reusable visual components for plans: charts, diagrams, and progress tracks."
+    />
+    <title>Components — Visual Plans</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500&display=swap"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/components.js" defer></script>
+  </head>
+  <body>
+    <div class="dots"></div>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="/">mohtasham<span>.dev</span></a>
+        <span class="tag"><span class="dot"></span>Component library</span>
+      </header>
+
+      <section class="hero">
+        <a class="back" href="/">← All plans</a>
+        <div class="eyebrow">Reusable in every plan</div>
+        <h1>Visual<br />components.</h1>
+        <p class="lede">
+          Drop-in charts and diagrams for plan pages. Include
+          <b>/components.js</b>, pass JSON in a <b>data</b> attribute, and each
+          element renders as an SVG in the house style.
+        </p>
+        <hr class="hero-rule" />
+      </section>
+
+      <section>
+        <div class="section-head">
+          <h2>Bar chart.</h2>
+          <p>&lt;vp-bar-chart&gt;</p>
+        </div>
+        <vp-bar-chart
+          label="Fraud signals by source"
+          data='[
+            {"label":"Transactions analyzed","value":7800,"display":"7800+"},
+            {"label":"Fraud patterns","value":981,"display":"981+"},
+            {"label":"Risk signals","value":670,"display":"670+","highlight":true},
+            {"label":"Workflow actions","value":500,"display":"500+"}
+          ]'
+        ></vp-bar-chart>
+        <pre class="vp-usage">&lt;vp-bar-chart label="Fraud signals by source"
+  data='[{"label":"Risk signals","value":670,"display":"670+","highlight":true}, …]'&gt;
+&lt;/vp-bar-chart&gt;</pre>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <h2>Line chart.</h2>
+          <p>&lt;vp-line-chart&gt;</p>
+        </div>
+        <vp-line-chart
+          label="Deploy time per release"
+          data='{"points":[42,38,31,33,24,19,14],"labels":["v1","v2","v3","v4","v5","v6","v7"],"unit":"s"}'
+        ></vp-line-chart>
+        <pre class="vp-usage">&lt;vp-line-chart label="Deploy time per release"
+  data='{"points":[42,38,31,33,24,19,14],"labels":["v1","v2",…],"unit":"s"}'&gt;
+&lt;/vp-line-chart&gt;</pre>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <h2>Donut &amp; progress.</h2>
+          <p>&lt;vp-donut&gt; · &lt;vp-progress&gt;</p>
+        </div>
+        <div class="vp-row">
+          <vp-donut
+            label="Rollout"
+            data='{"value":80,"display":"80%","caption":"complete"}'
+          ></vp-donut>
+          <vp-progress
+            label="Milestones"
+            data='{"done":4,"total":5,"milestones":["VM","Coolify","DNS","Ports","Ship"]}'
+          ></vp-progress>
+        </div>
+        <pre class="vp-usage">&lt;vp-donut data='{"value":80,"display":"80%","caption":"complete"}'&gt;&lt;/vp-donut&gt;
+&lt;vp-progress data='{"done":4,"total":5,"milestones":["VM","Coolify","DNS","Ports","Ship"]}'&gt;&lt;/vp-progress&gt;</pre>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <h2>Flow diagram.</h2>
+          <p>&lt;vp-flow&gt;</p>
+        </div>
+        <vp-flow
+          label="How a demo ships"
+          data='{"nodes":["GitHub repo","Coolify build","Traefik HTTPS","project.demo.mohtasham.dev"],"highlight":3}'
+        ></vp-flow>
+        <pre class="vp-usage">&lt;vp-flow label="How a demo ships"
+  data='{"nodes":["GitHub repo","Coolify build","Traefik HTTPS","…"],"highlight":3}'&gt;
+&lt;/vp-flow&gt;</pre>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <h2>Stack diagram.</h2>
+          <p>&lt;vp-stack&gt;</p>
+        </div>
+        <vp-stack
+          label="Hosting architecture"
+          data='[
+            {"label":"Traefik proxy","note":"80 · 443","highlight":true},
+            {"cols":["plan A","plan B","prototype C"]},
+            {"label":"Coolify","note":"deploys · env · logs"},
+            {"label":"mohtasham-hermes VM","note":"8 vCPU · 32 GB"}
+          ]'
+        ></vp-stack>
+        <pre class="vp-usage">&lt;vp-stack label="Hosting architecture"
+  data='[{"label":"Traefik proxy","note":"80 · 443","highlight":true},
+         {"cols":["plan A","plan B","prototype C"]}, …]'&gt;
+&lt;/vp-stack&gt;</pre>
+      </section>
+
+      <footer class="footer">
+        <span>Visual Plans · Component library</span>
+        <span>SVG · zero dependencies</span>
+      </footer>
+    </main>
+  </body>
+</html>
