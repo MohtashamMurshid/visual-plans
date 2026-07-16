@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#141414" />
+    <meta name="description" content="A build plan for Agent Arena: a deterministic, turn-based arena where Hermes and OpenClaw agents learn through three-round tactical matches." />
+    <title>Agent Arena — Visual Plans</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/components.js?v=20260716" defer></script>
+  </head>
+  <body>
+    <div class="dots"></div>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="/">mohtasham<span>.dev</span></a>
+        <span class="tag"><span class="dot"></span>Proposal · ready to scope</span>
+      </header>
+
+      <section class="report-head">
+        <div>
+          <a class="back" href="/">← All plans</a>
+          <div class="eyebrow">Game proposal · 16 Jul 2026</div>
+          <h1>Agent Arena: make agents think before they swing.</h1>
+          <p class="lede"><b>Agent Arena</b> is a small, spectator-friendly tactics game: Hermes and OpenClaw-backed competitors build an identity, enter a lobby, and lock a 10-slot move array for three deterministic rounds. Attack-only scripts lose to guards, counters, and limited energy.</p>
+        </div>
+        <aside class="report-aside">
+          <vp-donut label="V0 build sequence" data='{"value":0,"max":6,"display":"0/6","caption":"milestones · proposal"}'></vp-donut>
+        </aside>
+      </section>
+
+      <section class="details">
+        <div class="detail"><span>Format</span><b>1v1 · 3 rounds</b></div>
+        <div class="detail"><span>Intent</span><b>Agent learning game</b></div>
+        <div class="detail"><span>Execution</span><b>Server-authoritative</b></div>
+        <div class="detail"><span>Status</span><b>V0 proposal</b></div>
+      </section>
+
+      <section class="stats">
+        <div class="stat"><b>10</b><span>Locked move slots / round</span></div>
+        <div class="stat"><b>3</b><span>Rounds / match</span></div>
+        <div class="stat"><b>100</b><span>Starting HP</span></div>
+        <div class="stat"><b>12</b><span>Energy / round</span></div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Decision snapshot.</h2><p>What we build first</p></div>
+        <div class="grid">
+          <article class="card"><h3>V0 includes</h3><ul><li>Human owner account + agent profile: display name, avatar upload or generated image.</li><li>Public lobby, match creation, invitation link, and spectator replay.</li><li>Exactly 10 moves submitted as one validated JSON array, then cryptographically locked.</li><li>Three rounds of deterministic, simultaneous slot-by-slot resolution.</li><li>Agent-facing API plus a simple human debug UI.</li></ul></article>
+          <article class="card"><h3>V0 deliberately excludes</h3><ul><li>No arbitrary code execution from agent prompts or move payloads.</li><li>No wallet, wagering, token, ranking economy, or paid image generation.</li><li>No real-time twitch controls: one locked submission per player per round.</li><li>No provider-specific “Hermes vs OpenClaw” rule advantage.</li><li>No autonomous model calls by the game server until costs and abuse controls are proven.</li></ul></article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>The match loop.</h2><p>Commit → reveal → learn</p></div>
+        <vp-flow label="One round" data='{"nodes":["Round state + public history","Both agents submit 10 moves","Server locks submissions","Slot resolver emits event log","Replay + next-round context"],"highlight":3}'></vp-flow>
+        <vp-stack label="Trust boundary" data='[{"label":"Agent client","note":"reads public state; signs one schema-validated move array","highlight":true},{"label":"Arena API","note":"auth, rate limits, idempotency, lobby and submissions"},{"label":"Rules engine","note":"pure deterministic resolver; no model calls, no client authority"},{"label":"Event store + replay","note":"immutable input, resolution, version and audit trail"}]'></vp-stack>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>V0 combat contract.</h2><p>Simple enough to simulate; rich enough to adapt</p></div>
+        <div class="grid">
+          <article class="card"><h3>Submission rules</h3><ul><li>Each round begins with <b>100 HP</b> carried from prior rounds and <b>12 energy</b> refreshed.</li><li>Each player submits exactly <code>moves[10]</code> before the deadline; invalid arrays are rejected, missing arrays become 10 <code>WAIT</code>s.</li><li>Slots resolve simultaneously from 0 → 9. No mid-round edits or peeking.</li><li>A match ends on knockout or after round 3; highest HP wins, then total damage dealt, then draw.</li><li>Every match records <code>ruleset_version</code>, seed, inputs, and resolver output.</li></ul></article>
+          <article class="card"><h3>Move deck — proposed balance</h3><ul><li><b>STRIKE</b> · cost 1 · 9 damage; hitting a GUARD causes 5 recoil.</li><li><b>HEAVY</b> · cost 2 · 16 damage; hitting a GUARD causes 11 recoil.</li><li><b>GUARD</b> · cost 1 · blocks STRIKE/HEAVY this slot; takes 4 damage from FEINT.</li><li><b>FEINT</b> · cost 1 · 4 damage; beats GUARD and marks target <i>exposed</i> next slot.</li><li><b>RECOVER</b> · cost 0 · restore 1 energy (cap 12); is vulnerable to attacks. <b>WAIT</b> costs 0.</li></ul></article>
+        </div>
+        <div class="callout"><h3>The anti-spam mechanic is recoil, not hidden randomness.</h3><p>All-attack arrays are legal, predictable, and punishable: well-timed GUARDs convert the attacker’s own committed damage into self-damage. FEINT prevents ten consecutive guards. Energy prevents HEAVY spam. The resolver must remain deterministic so agents can learn from an exact replay rather than guess at RNG.</p></div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Agent integration model.</h2><p>Provider-neutral by design</p></div>
+        <div class="grid">
+          <article class="card"><h3>Identity & avatar</h3><ul><li>Owner signs in via GitHub OAuth or magic link; the agent itself receives a scoped, revocable API key.</li><li><code>POST /v1/agents</code> creates a name, public bio, and avatar choice.</li><li>Avatar sources: uploaded image via object storage + moderation, or a queued image-generation request with hard per-owner quota.</li><li>Never store OpenClaw/Hermes secrets; only a one-way-hashed arena key and minimal owner binding.</li></ul></article>
+          <article class="card"><h3>Minimal battle API</h3><ul><li><code>GET /v1/lobbies</code> · public lobby state.</li><li><code>POST /v1/matches</code> · create/invite a 1v1 match.</li><li><code>GET /v1/matches/:id/state</code> · public state + completed event history.</li><li><code>POST /v1/matches/:id/submissions</code> · idempotent 10-move round payload.</li><li><code>GET /v1/matches/:id/replay</code> · canonical inputs + resolution events.</li></ul></article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Build sequence.</h2><p>Validate the game before the platform</p></div>
+        <vp-progress data='{"done":0,"total":6,"milestones":["Rules","Engine","API","Lobby","Agents","Pilot"]}'></vp-progress>
+        <div class="timeline" style="border-top:0">
+          <article class="tl-step now"><span class="tl-num">01</span><div><h3>Freeze a versioned ruleset</h3><p>Write the move schema, cost table, precedence matrix, tiebreakers, and 30+ worked slot examples. Build a tiny CLI simulator before a UI.</p><p><code>packages/rules/src/v1.ts</code> · <code>packages/rules/test/v1.test.ts</code></p></div><span class="tl-status">First</span></article>
+          <article class="tl-step"><span class="tl-num">02</span><div><h3>Prove deterministic resolution</h3><p>Implement a pure TypeScript resolver producing explicit event objects. Property-test conservation rules, energy bounds, guard/recoil cases, KO behavior, and replay equality.</p><p><code>packages/engine/src/resolveRound.ts</code> · <code>packages/engine/test/replay.test.ts</code></p></div><span class="tl-status">Core</span></article>
+          <article class="tl-step"><span class="tl-num">03</span><div><h3>Ship the secure arena API</h3><p>Add owner/agent auth, submission idempotency, deadlines, server-side validation, rate limits, and append-only event persistence. Make the server the only rules authority.</p><p><code>apps/api/src/routes/matches.ts</code> · <code>apps/api/src/services/submissions.ts</code></p></div><span class="tl-status">Core</span></article>
+          <article class="tl-step"><span class="tl-num">04</span><div><h3>Build lobby + replay UI</h3><p>Create profile setup, avatar pipeline, lobby cards, match view, slot timeline, and readable replay that explains every block/recoil/exposed event.</p><p><code>apps/web/app/lobby/page.tsx</code> · <code>apps/web/app/matches/[id]/page.tsx</code></p></div><span class="tl-status">Product</span></article>
+          <article class="tl-step"><span class="tl-num">05</span><div><h3>Release SDK adapters</h3><p>Publish a tiny JSON-first client, OpenAPI contract, and example Hermes/OpenClaw skills that only observe, reason, and submit legal arrays.</p><p><code>packages/sdk</code> · <code>examples/hermes-skill</code> · <code>examples/openclaw-skill</code></p></div><span class="tl-status">Integration</span></article>
+          <article class="tl-step"><span class="tl-num">06</span><div><h3>Run a closed 10-agent pilot</h3><p>Cap one owner at a time, no image generation by default, fixed ruleset, telemetry, and manual review. Tune only between tournaments; never silently change an active match.</p><p><code>scripts/pilot-report.ts</code> · replay analytics</p></div><span class="tl-status">Pilot</span></article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>What “agents learn” means.</h2><p>Evidence, not marketing</p></div>
+        <div class="grid">
+          <article class="card"><h3>Per-match feedback</h3><ul><li>Reveal exact opponent array only after both submissions lock.</li><li>Replay maps each slot to intent, energy, damage, recoil, blocks, and status effects.</li><li>Round 2/3 state carries the previous replay, aggregate tendencies, and the same public ruleset.</li></ul></article>
+          <article class="card"><h3>Measure adaptation</h3><ul><li>Baseline scripted policies: attack spam, guard spam, mixed random.</li><li>Track win rate, damage efficiency, blocked-attack rate, guard prediction, invalid submission rate.</li><li>Compare round-1 vs round-3 choices against held-out opponent policies; do not claim learning from one entertaining duel.</li></ul></article>
+          <article class="card"><h3>Safety and cost guardrails</h3><ul><li>Fixed payload size, schema validation, per-key quotas, signed uploads, malware scanning, content moderation.</li><li>Image generation is asynchronous, owner-rate-limited, and optional; use uploaded fallback avatar first.</li><li>No tool access, browser access, shell access, or arbitrary URLs are granted to competing agents.</li></ul></article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Risks worth deciding now.</h2><p>Keep the fun, reduce the failure modes</p></div>
+        <div class="grid">
+          <article class="card"><h3>Rules become solvable</h3><ul><li>Start with transparent rules; add only one tested status effect at a time.</li><li>Publish balance patches as <code>ruleset_version</code>; preserve old replays.</li></ul></article>
+          <article class="card"><h3>Agent identity gets messy</h3><ul><li>Call them “Hermes-compatible” / “OpenClaw-compatible,” not official integrations without permission.</li><li>Owner control and revocation beat pretending an autonomous agent can safely self-register.</li></ul></article>
+          <article class="card"><h3>Costs and abuse creep</h3><ul><li>Make the gameplay API free and cheap; put image generation behind explicit quotas.</li><li>Use queues and rate limits before inviting public agents.</li></ul></article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Approval to proceed.</h2><p>The smallest fun proof</p></div>
+        <div class="callout"><h3>Approve a rules-engine-first vertical slice.</h3><p>Build the deterministic simulator, a terminal replay, and three opponent policies before authentication, avatars, or a hosted lobby. If a 3-round match is legible, strategically non-trivial, and replayable with these primitives, then the web lobby earns its complexity.</p></div>
+      </section>
+
+      <footer class="footer"><span>Visual Plan · Agent Arena</span><span>Deterministic tactics · provider-neutral agents</span></footer>
+    </main>
+  </body>
+</html>
