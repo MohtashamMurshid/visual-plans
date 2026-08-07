@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#141414" />
+    <meta name="description" content="A visual engineering explainer for arXiv:2607.06503: recall-controlled early abort for doomed LLM-agent episodes." />
+    <title>Doomed from the Start — Visual Paper Plan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/components.js" defer></script>
+  </head>
+  <body class="paper-plan">
+    <div class="dots"></div>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="/">mohtasham<span>.dev</span></a>
+        <span class="tag"><span class="dot"></span>Paper visualised</span>
+      </header>
+
+      <section class="report-head paper-hero">
+        <div>
+          <a class="back" href="/">← All plans</a>
+          <div class="eyebrow">Paper explainer · arXiv:2607.06503 · 07 Aug 2026</div>
+          <h1>Doomed from the Start</h1>
+          <p class="lede">LLM agents leak tokens into trajectories that are already unlikely to recover. This paper reads the model’s hidden state during the first six rounds, aborts likely failures, and controls how many eventual successes may be lost.</p>
+          <div class="paper-actions">
+            <a class="paper-link" href="https://arxiv.org/pdf/2607.06503" target="_blank" rel="noopener">Read the paper ↗</a>
+            <span class="paper-byline">Ruan et al. · v2 · 16 Jul 2026</span>
+          </div>
+        </div>
+        <aside class="report-aside result-aside">
+          <div class="aside-kicker">Headline result</div>
+          <strong>60.2%</strong>
+          <p>maximum generated-token savings on TextCraft at a 90% global success-recall target.</p>
+          <div class="aside-rule"></div>
+          <span>24 / 24 settings beat the best single gate</span>
+        </aside>
+      </section>
+
+      <section class="details">
+        <div class="detail"><span>Problem</span><b>Wasted agent inference</b></div>
+        <div class="detail"><span>Control target</span><b>Global success recall</b></div>
+        <div class="detail"><span>Decision points</span><b>Rounds 1–6</b></div>
+        <div class="detail"><span>Evaluation</span><b>2 envs × 3 models</b></div>
+        <div class="detail"><span>Source</span><a href="https://arxiv.org/abs/2607.06503" target="_blank" rel="noopener">arXiv ↗</a></div>
+      </section>
+
+      <section class="thesis-band">
+        <span class="thesis-label">The thesis</span>
+        <p><b>The model knows before its behaviour shows.</b> A tiny linear probe can detect eventual failure from internal activations earlier than cheap trace features, so the system can stop doomed runs while a calibrated cascade protects successful ones.</p>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>The mechanism.</h2><p>One episode, six guarded rounds</p></div>
+        <div class="cascade-map" aria-label="Six-stage recall-controlled probe cascade">
+          <article><span>01</span><div class="cascade-icon">h<sub>r</sub></div><h3>Read state</h3><p>Take the selected-layer residual-stream vector at the final action token.</p></article>
+          <article><span>02</span><div class="cascade-icon">f<sub>r</sub></div><h3>Score failure</h3><p>A standardised logistic probe predicts the episode’s eventual failure.</p></article>
+          <article><span>03</span><div class="cascade-icon">τ<sub>r</sub></div><h3>Calibrate gate</h3><p>Clopper–Pearson sets a conservative threshold for successful-run survival.</p></article>
+          <article><span>04</span><div class="cascade-icon">t⃗</div><h3>Search budgets</h3><p>Test 46,656 six-round recall allocations on disjoint validation tasks.</p></article>
+          <article><span>05</span><div class="cascade-icon">ρ*</div><h3>Protect recall</h3><p>Keep candidates meeting global target plus the 0.02 safety margin.</p></article>
+          <article class="decision-stage"><span>06</span><div class="cascade-icon">⊣</div><h3>Abort or pass</h3><p>High failure score stops the run; weak evidence makes the system abstain.</p></article>
+        </div>
+        <div class="equation-strip">
+          <div><span>Gate rule</span><code>abort if f<sub>r</sub>(h<sub>r</sub>) &gt; τ<sub>r</sub></code></div>
+          <div><span>Saved work</span><code>C − c<sub>r</sub></code></div>
+          <div><span>Safety objective</span><code>global recall ≥ ρ*</code></div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>What the experiments say.</h2><p>Generated tokens saved · 90% recall target</p></div>
+        <div class="evidence-grid">
+          <article class="evidence-card lead-evidence"><span class="evidence-num">01</span><strong>60.2%</strong><h3>TextCraft · Qwen-2.5-7B</h3><p>versus 40.1% for the best single gate</p></article>
+          <article class="evidence-card lead-evidence"><span class="evidence-num">02</span><strong>54.9%</strong><h3>WebShop · Qwen3-1.7B</h3><p>versus 8.3% for the best single gate</p></article>
+          <article class="evidence-card"><span class="evidence-num">03</span><strong>8.8×</strong><h3>Largest cascade advantage</h3><p>WebShop · Llama-3.2-3B: 24.7% versus 2.8%</p></article>
+          <article class="evidence-card"><span class="evidence-num">04</span><strong>24/24</strong><h3>Configurations won</h3><p>Cascade beats single-gate and uniform allocation at every target.</p></article>
+          <article class="evidence-card"><span class="evidence-num">05</span><strong>≤ 0.024</strong><h3>Mean recall deviation</h3><p>Every setting lands within one seed-level standard deviation of target.</p></article>
+        </div>
+        <vp-bar-chart label="Cascade savings across the full 2 × 3 matrix · target ρ*=0.90" data='[
+          {"label":"TextCraft · Qwen2.5","value":60.2,"display":"60.2%","highlight":true},
+          {"label":"TextCraft · Llama3.2","value":34.7,"display":"34.7%"},
+          {"label":"TextCraft · Qwen3","value":47.3,"display":"47.3%"},
+          {"label":"WebShop · Qwen2.5","value":35.9,"display":"35.9%"},
+          {"label":"WebShop · Llama3.2","value":24.7,"display":"24.7%"},
+          {"label":"WebShop · Qwen3","value":54.9,"display":"54.9%","highlight":true}
+        ]'></vp-bar-chart>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Why hidden state matters.</h2><p>Signal arrives before behaviour</p></div>
+        <div class="signal-layout">
+          <article class="signal-story">
+            <div class="round-rise"><span>Round 1</span><b>0.591</b><i></i><span>Round 3</span><b>0.896</b><i class="wide"></i><span>Later</span><b>&gt;0.92</b></div>
+            <h3>WebShop · Qwen3-1.7B probe AUC</h3>
+            <p>The signal is initially weak, then becomes highly separable by round 3. A single fixed gate cannot exploit both early and late predictability; the searched cascade can.</p>
+          </article>
+          <article class="compare-card">
+            <span class="compare-label">At 95% recall · WebShop Qwen3</span>
+            <div><b>41.6%</b><span>activation probe</span></div>
+            <div><b>9.9%</b><span>surface features</span></div>
+            <p>Adding surface features to the activation probe produced no further gain.</p>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>The statistical safety layer.</h2><p>Certification has a data bill</p></div>
+        <div class="cert-grid">
+          <article><span class="cert-target">97.4%</span><b>114</b><p>successful certification episodes support a target near 0.974.</p></article>
+          <article><span class="cert-target">98%</span><b>149</b><p>successful episodes required, even for a cascade that aborts nothing.</p></article>
+          <article><span class="cert-target">99%</span><b>299</b><p>successful episodes required for a 95%-confidence certificate.</p></article>
+        </div>
+        <div class="formula-callout"><code>n<sub>success</sub> ≥ ln(α) / ln(ρ*)</code><p>Stricter recall promises need sharply more successful held-out episodes. If the certificate fails, the valid action is to abstain, collect more data, or relax the target—not silently deploy.</p></div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Deployment blueprint.</h2><p>How to turn the paper into a real system</p></div>
+        <div class="timeline implementation-timeline">
+          <article class="tl-step"><span class="tl-num">01</span><div><h3>Instrument inference</h3><p>Capture one final-action-token hidden vector at the selected layer during each of rounds 1–6. Benchmark extraction overhead before claiming net savings.</p><small>Validate: hidden-state shape, per-round timing, token accounting</small></div><span class="tl-status">Build</span></article>
+          <article class="tl-step"><span class="tl-num">02</span><div><h3>Collect grouped trajectories</h3><p>Log complete episodes with task IDs, per-round hidden vectors, generated tokens, and final binary success. Keep task groups disjoint across train, calibration, validation, certification, and test.</p><small>Validate: no task leakage; enough successful certification episodes</small></div><span class="tl-status">Data</span></article>
+          <article class="tl-step"><span class="tl-num">03</span><div><h3>Fit and calibrate</h3><p>Train one standardised logistic probe per gate round, calibrate conservative thresholds with Clopper–Pearson, then search the six-round budget vector against the global recall target.</p><small>Validate: replay simulator reproduces recall and saved-token accounting</small></div><span class="tl-status">Offline</span></article>
+          <article class="tl-step"><span class="tl-num">04</span><div><h3>Freeze and certify</h3><p>Lock the chosen probes, thresholds, and budgets before touching the independent certification set. Deploy only when the global lower bound clears ρ*.</p><small>Validate: immutable artefact hash; certificate report; no-abort fallback</small></div><span class="tl-status">Gate</span></article>
+          <article class="tl-step now"><span class="tl-num">05</span><div><h3>Shadow, then canary</h3><p>First score without aborting. Compare predicted savings, realised successes, latency, and dollars. Canary only after drift and overhead checks pass.</p><small>Validate: recall floor, p95 latency, GPU memory, cost per successful task</small></div><span class="tl-status">Deploy</span></article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>What is not proven yet.</h2><p>Read before production</p></div>
+        <div class="risk-grid">
+          <article><span>01 · Shift</span><h3>In-domain only</h3><p>Grouped task splits prevent leakage, but category-held-out and zero-shot transfer remain untested. Probe, thresholds, and control must be refreshed under distribution shift.</p></article>
+          <article><span>02 · Systems cost</span><h3>Tokens are not dollars</h3><p>The paper measures generated-token savings, not wall-clock latency or serving cost. Hidden-state extraction has non-zero overhead and vLLM constraints.</p></article>
+          <article><span>03 · Utility</span><h3>Saved compute is not reward</h3><p>Reallocating aborted compute to retries or extra samples was not evaluated end to end.</p></article>
+          <article><span>04 · Reproduction</span><h3>Code is pending</h3><p>The paper says code will be released soon. Treat implementation details as a blueprint until the authors’ artefacts are available.</p></article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Engineer’s take.</h2><p>Three practical conclusions</p></div>
+        <div class="takeaway-list">
+          <article><span>01</span><p><b>Use internal probes when you own the serving stack.</b> They surface recoverability before cheap behavioural monitors do.</p></article>
+          <article><span>02</span><p><b>Optimise a sequence, not a threshold.</b> Recall risk accumulates across rounds; independently “safe” gates do not guarantee safe episode-level recall.</p></article>
+          <article><span>03</span><p><b>Make abstention a feature.</b> When signal or positive data is weak, a near-no-op policy is the correct failure mode.</p></article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Recommended next experiment.</h2><p>For a real agent platform</p></div>
+        <div class="callout next-experiment">
+          <div><span class="callout-kicker">Pilot</span><h3>Run the cascade in shadow mode on one expensive, repeatable agent workflow.</h3></div>
+          <p>Start with a 95% global recall target. Report token savings beside wall-clock and dollar savings, hold out task categories—not only task IDs—and compare against a behaviour-only monitor plus “always retry once” economics.</p>
+        </div>
+      </section>
+
+      <footer class="footer"><span>Visual paper plan · arXiv:2607.06503</span><span>Source-backed · phone-first</span></footer>
+    </main>
+  </body>
+</html>
