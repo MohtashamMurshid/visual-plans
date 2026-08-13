@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#141414" />
+    <meta name="description" content="A source-backed visual explainer for MatrAIx: a simulated-user evaluation system built around Persona 8B, four environments, and 1,010 product tasks." />
+    <title>MatrAIx — Visual Paper Explainer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/components.js" defer></script>
+  </head>
+  <body class="paper-plan">
+    <div class="dots"></div>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="/">mohtasham<span>.dev</span></a>
+        <span class="tag"><span class="dot"></span>Paper visualised</span>
+      </header>
+
+      <section class="report-head paper-hero">
+        <div>
+          <a class="back" href="/">← All plans</a>
+          <div class="eyebrow">Paper explainer · arXiv:2608.04205 · v1</div>
+          <h1>MatrAIx</h1>
+          <p class="lede">A population-scale test harness where sampled personas—not a generic “user”—survey, chat, browse, and operate apps to expose subgroup-specific product friction before human studies.</p>
+          <div class="paper-actions">
+            <a class="paper-link" href="https://arxiv.org/pdf/2608.04205" target="_blank" rel="noopener">Read the paper ↗</a>
+            <a class="paper-link" href="https://github.com/MatrAIx-ai/MatrAIx-Persona-8B" target="_blank" rel="noopener">Code + data ↗</a>
+            <span class="paper-byline">Li, Hao et al. · 04 Aug 2026</span>
+          </div>
+        </div>
+        <aside class="report-aside result-aside">
+          <div class="aside-kicker">Controlled adherence</div>
+          <strong>91.5%</strong>
+          <p>366 of 400 trials expressed—or correctly suppressed—the assigned behavioural attribute.</p>
+          <div class="aside-rule"></div>
+          <span>Useful for screening, not a substitute for humans</span>
+        </aside>
+      </section>
+
+      <section class="details">
+        <div class="detail"><span>Population</span><b>8.3B persona records</b></div>
+        <div class="detail"><span>Schema</span><b>1,290 dimensions</b></div>
+        <div class="detail"><span>Public coreset</span><b>999,847 records</b></div>
+        <div class="detail"><span>Study</span><b>18,189 trials</b></div>
+        <div class="detail"><span>Tasks</span><b>1,010 · 25+ domains</b></div>
+      </section>
+
+      <section class="thesis-band">
+        <span class="thesis-label">The thesis</span>
+        <p><b>Evaluate the product through a declared population, not one average prompt.</b> MatrAIx joins a queryable persona population, four interaction environments, versioned task contracts, shared telemetry, and subgroup reporting into one simulated-user loop.</p>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>From population to evidence.</h2><p>The real end-to-end flow</p></div>
+        <div class="cascade-map" aria-label="MatrAIx simulated-user evaluation flow">
+          <article><span>01</span><div class="cascade-icon">Σ</div><h3>Build population</h3><p>Map six human-grounded sources and DAG-sampled synthetic records into one schema.</p></article>
+          <article><span>02</span><div class="cascade-icon">Q</div><h3>Query cohort</h3><p>Declare filters, sampling mode, strata, size, allocation, and seed.</p></article>
+          <article><span>03</span><div class="cascade-icon">π</div><h3>Bind an agent</h3><p>Pair each persona with a model, interface, task, and independent seed.</p></article>
+          <article><span>04</span><div class="cascade-icon">↗</div><h3>Interact</h3><p>Run Survey, AI Chatbot, Web, or App against the system under test.</p></article>
+          <article><span>05</span><div class="cascade-icon">✓</div><h3>Verify</h3><p>Store trajectories, final state, task-owned outcomes, and cited evidence.</p></article>
+          <article><span>06</span><div class="cascade-icon">Δ</div><h3>Compare groups</h3><p>Report personal and population findings without collapsing everything to one score.</p></article>
+        </div>
+        <div class="equation-strip">
+          <div><span>Trial envelope</span><code>τ = ⟨persona, task, agent, model, seed⟩</code></div>
+          <div><span>Synthetic sampling</span><code>p(x) = ∏ p(xᵢ | parentsᵢ)</code></div>
+          <div><span>Hard rule</span><code>compatibility mask mᵢ ∈ {0,1}</code></div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>What exists.</h2><p>Scale is layered—not all executed</p></div>
+        <div class="evidence-grid">
+          <article class="evidence-card lead-evidence"><span class="evidence-num">01</span><strong>8.3B</strong><h3>Persona records</h3><p>Internal population under a shared 1,290-dimensional categorical schema.</p></article>
+          <article class="evidence-card"><span class="evidence-num">02</span><strong>599,847</strong><h3>Human-grounded release</h3><p>De-identified records from profiles, reviews, surveys, and consented responses.</p></article>
+          <article class="evidence-card"><span class="evidence-num">03</span><strong>400,000</strong><h3>Synthetic release</h3><p>Forward-sampled through a 1,308-node, 6,999-edge dependency graph.</p></article>
+          <article class="evidence-card"><span class="evidence-num">04</span><strong>1,010</strong><h3>Task specifications</h3><p>621 Survey · 371 Chatbot · 12 Web · 6 App. A task is not an executed study.</p></article>
+          <article class="evidence-card"><span class="evidence-num">05</span><strong>8</strong><h3>Validation tasks run</h3><p>18,189 application trials using GPT 5.5, Opus 4.8, and Haiku 4.5.</p></article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>The result that changes decisions.</h2><p>Same cohort · different persona model</p></div>
+        <div class="callout next-experiment">
+          <div><span class="callout-kicker">First-order factor</span><h3>The simulator backbone can reverse the product verdict.</h3></div>
+          <p>On Notion plan choice, paid selection ranged from <b>23.2%</b> with Opus 4.8 to <b>93.9%</b> with Haiku 4.5. The paper requires reporting the persona model and checking important findings across models.</p>
+        </div>
+        <vp-bar-chart label="Selected a paid Notion plan · identical cohorts · Table 13" data='[
+          {"label":"GPT 5.5 · 776/1,024","value":75.8,"display":"75.8%"},
+          {"label":"Claude Opus 4.8 · 237/1,022","value":23.2,"display":"23.2%"},
+          {"label":"Claude Haiku 4.5 · 958/1,020","value":93.9,"display":"93.9%","highlight":true}
+        ]'></vp-bar-chart>
+        <div class="takeaway-list">
+          <article><span>OpenBB</span><p><b>Trust was the strongest stable subgroup signal.</b> All three models ordered four trust groups identically; Cramér’s V = 0.228–0.363, all q &lt; 10⁻⁸.</p></article>
+          <article><span>22 pairs</span><p><b>Cross-model consistency was mixed.</b> 14 of 22 defined pair-by-task comparisons pointed in the same direction; median Spearman ρ was +0.29.</p></article>
+          <article><span>88 fields</span><p><b>Model outputs were not interchangeable.</b> Median Cohen’s κ across joinable persona fields was approximately zero for every model pair.</p></article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Validation, separated.</h2><p>Three claims · three tests</p></div>
+        <div class="cert-grid">
+          <article><span class="cert-target">Behaviour</span><b>366/400</b><p>Controlled adherence across 10 attributes × 4 environments; App was weakest at 83%.</p></article>
+          <article><span class="cert-target">Extraction</span><b>4.135/5</b><p>Mean human quality score on 100 source-matched personas rated by six humans.</p></article>
+          <article><span class="cert-target">Agreement</span><b>93.8%</b><p>Claude Opus scores were within one point of the human mean; GPT 5.5 reached 79.2%.</p></article>
+        </div>
+        <div class="formula-callout"><code>screen → inspect traces → validate with humans</code><p>The evidence supports pre-deployment screening, stress testing, subgroup analysis, and version comparison. It does not establish that simulated cohorts estimate real-population behaviour.</p></div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>A practical eval blueprint.</h2><p>Recommendation · not a paper result</p></div>
+        <div class="timeline implementation-timeline">
+          <article class="tl-step"><span class="tl-num">01</span><div><h3>Declare one product decision</h3><p>Choose a consequential interaction: onboarding completion, subscription trust, chatbot recovery, or feature discovery.</p><small>Output: versioned task contract + explicit verifier</small></div><span class="tl-status">Scope</span></article>
+          <article class="tl-step"><span class="tl-num">02</span><div><h3>Design a Malaysia/SEA cohort</h3><p>Stratify on language, region, age, expertise, accessibility, and economic context. Keep the sampling manifest and never imply representativeness.</p><small>Output: filters, strata, allocation, seed, selected IDs</small></div><span class="tl-status">Cohort</span></article>
+          <article class="tl-step"><span class="tl-num">03</span><div><h3>Cross the model matrix</h3><p>Run the same cohort under at least two persona backbones, including one that differs from the system under test.</p><small>Output: model × subgroup outcomes with actual denominators</small></div><span class="tl-status">Run</span></article>
+          <article class="tl-step"><span class="tl-num">04</span><div><h3>Audit disagreement</h3><p>Inspect trajectories behind model-sensitive and subgroup-sensitive findings. Separate task outcome, simulated-user behaviour, and persona adherence.</p><small>Output: cited traces + artifact-integrity exceptions</small></div><span class="tl-status">Audit</span></article>
+          <article class="tl-step now"><span class="tl-num">05</span><div><h3>Human-anchor the finding</h3><p>Use a small matched human study before consequential decisions; compare real and simulated turns, correction, abandonment, and withheld context.</p><small>Output: calibrated gap report, not “digital twin” claims</small></div><span class="tl-status">Validate</span></article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>What is not proven.</h2><p>The boundary matters</p></div>
+        <div class="risk-grid">
+          <article><span>01 · Representation</span><h3>8.3B ≠ the world</h3><p>The public artifact is a 999,847-record coreset. Neither synthetic nor human-grounded cohorts are probability samples of real populations.</p></article>
+          <article><span>02 · Human validity</span><h3>Adherence ≠ realism</h3><p>A model can express a declared style without withholding context, pushing back, correcting, or abandoning like a person.</p></article>
+          <article><span>03 · Backbone bias</span><h3>Self-preference is unisolated</h3><p>The experiments do not fully cross persona model with system model, so shared-backbone preference cannot be separated from model variation.</p></article>
+          <article><span>04 · Consequence</span><h3>Hypothesis-generating only</h3><p>Do not impersonate people, attribute simulated views to communities, or use this as evidence for high-stakes population decisions.</p></article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Engineer’s take.</h2><p>Three durable lessons</p></div>
+        <div class="takeaway-list">
+          <article><span>01</span><p><b>The useful primitive is the cohort manifest.</b> Reproducible filters, strata, model, seed, task version, and selected IDs matter more than the raw persona count.</p></article>
+          <article><span>02</span><p><b>Never publish one simulator number.</b> Show model arms, subgroup denominators, uncertainty, traces, and integrity exceptions together.</p></article>
+          <article><span>03</span><p><b>Use simulation to find where to look.</b> Let persona agents surface friction cheaply; let matched human evidence decide whether it is real.</p></article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Recommended next experiment.</h2><p>Highest-value missing evidence</p></div>
+        <div class="callout next-experiment">
+          <div><span class="callout-kicker">Crossed study</span><h3>Cross persona backbone × system backbone on one task, then human-anchor the disagreements.</h3></div>
+          <p>Use one SEA-relevant chatbot recovery or subscription-trust task, one frozen cohort, at least two persona models, and two systems under test. Add a small human cohort and compare not only final choices but correction, pushback, withheld context, and abandonment.</p>
+        </div>
+      </section>
+
+      <footer class="footer"><span>Visual paper plan · arXiv:2608.04205</span><span>Reported evidence ≠ engineering recommendation</span></footer>
+    </main>
+  </body>
+</html>
