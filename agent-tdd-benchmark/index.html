@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#141414" />
+    <meta name="description" content="A controlled Codex benchmark plan comparing test-first and implementation-first agent workflows on realistic Markdown-to-DOCX tasks." />
+    <title>Agent TDD Benchmark — Visual Plans</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/components.js?v=20260816" defer></script>
+    <style>
+      .arm-grid { display:grid; grid-template-columns:1fr 1fr; border:1px solid var(--line); }
+      .arm { padding:30px; min-width:0; }
+      .arm + .arm { border-left:1px solid var(--line-soft); }
+      .arm-label { color:#d8c48a; font-size:10px; letter-spacing:.14em; text-transform:uppercase; }
+      .arm h3 { font-family:var(--display); font-size:23px; font-weight:500; margin:12px 0 18px; }
+      .arm ol { margin:0; padding-left:20px; color:var(--muted); }
+      .arm li { padding:7px 0; }
+      .metric-table { border-top:1px solid var(--line); }
+      .metric-row { display:grid; grid-template-columns:170px 1fr 120px; gap:24px; padding:20px 6px; border-bottom:1px solid var(--line); align-items:start; }
+      .metric-row b { font-family:var(--display); font-weight:500; }
+      .metric-row p { margin:0; color:var(--muted); }
+      .metric-row span { color:var(--faint); font-size:10px; letter-spacing:.12em; text-transform:uppercase; text-align:right; }
+      .file-tree { margin:0; padding:24px; background:var(--bg-raised); border:1px solid var(--line); color:var(--muted); overflow:auto; font:12px/1.8 ui-monospace,"SF Mono",Menlo,monospace; }
+      .decision { border-left:2px solid #c9b370; }
+      .pilot-score { text-align:center; padding:12px 0 8px; }
+      .pilot-score span { display:block; color:var(--faint); font-size:10px; letter-spacing:.14em; text-transform:uppercase; }
+      .pilot-score b { display:block; font-family:var(--display); font-size:64px; line-height:1; font-weight:500; margin:20px 0 12px; }
+      .pilot-score p { margin:0; color:var(--muted); font-size:12px; }
+      .bench-flow { display:grid; grid-template-columns:repeat(6,1fr); border:1px solid var(--line); }
+      .bench-flow div { position:relative; min-width:0; padding:22px 14px; border-right:1px solid var(--line-soft); color:var(--muted); font-size:11px; text-align:center; }
+      .bench-flow div:last-child { border-right:0; }
+      .bench-flow div.active { color:#d8c48a; background:rgba(201,179,112,.05); }
+      .boundary-stack { border:1px solid var(--line); border-top:0; }
+      .boundary-row { display:grid; grid-template-columns:170px 1fr; gap:24px; padding:20px 24px; border-top:1px solid var(--line-soft); align-items:start; }
+      .boundary-row b { font-family:var(--display); font-weight:500; }
+      .boundary-row span { color:var(--muted); font-size:12px; }
+      .worktrees { display:grid; grid-template-columns:1fr 1fr; border-top:1px solid var(--line-soft); }
+      .worktrees div { padding:20px 24px; text-align:center; font-family:var(--display); }
+      .worktrees div + div { border-left:1px solid var(--line-soft); }
+      .repo-list { border:1px solid var(--line); background:var(--bg-raised); }
+      .repo-list div { display:grid; grid-template-columns:250px 1fr; gap:22px; padding:14px 20px; border-bottom:1px solid var(--line-soft); }
+      .repo-list div:last-child { border-bottom:0; }
+      .repo-list code { color:var(--text); overflow-wrap:anywhere; }
+      .repo-list span { color:var(--muted); font-size:12px; }
+      @media (max-width:720px) {
+        .arm-grid { grid-template-columns:1fr; }
+        .arm + .arm { border-left:0; border-top:1px solid var(--line-soft); }
+        .metric-row { grid-template-columns:1fr; gap:7px; }
+        .metric-row span { text-align:left; }
+        .bench-flow { grid-template-columns:1fr; }
+        .bench-flow div { border-right:0; border-bottom:1px solid var(--line-soft); text-align:left; padding:15px 18px; }
+        .bench-flow div:last-child { border-bottom:0; }
+        .boundary-row, .repo-list div { grid-template-columns:1fr; gap:6px; }
+        .worktrees { grid-template-columns:1fr; }
+        .worktrees div + div { border-left:0; border-top:1px solid var(--line-soft); }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dots"></div>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="/">mohtasham<span>.dev</span></a>
+        <span class="tag"><span class="dot"></span>Benchmark proposal · ready to build</span>
+      </header>
+
+      <section class="report-head">
+        <div>
+          <a class="back" href="/">← All plans</a>
+          <div class="eyebrow">Agent evaluation · 16 Aug 2026</div>
+          <h1>Does test-first make Codex a better engineer?</h1>
+          <p class="lede">Build a blind, paired benchmark where fresh Codex sessions solve the same realistic Markdown→DOCX tasks under two enforced workflows. Hidden tests decide correctness; anonymous Codex judges and a human review decide engineering quality.</p>
+        </div>
+        <aside class="report-aside"><div class="pilot-score"><span>Pilot design</span><b>8</b><p>paired tasks · two arms</p></div></aside>
+      </section>
+
+      <section class="details">
+        <div class="detail"><span>Model</span><b>Codex only · pilot</b></div>
+        <div class="detail"><span>Design</span><b>Paired + blinded</b></div>
+        <div class="detail"><span>Domain</span><b>Markdown → DOCX</b></div>
+        <div class="detail"><span>Primary outcome</span><b>Hidden correctness / cost</b></div>
+      </section>
+
+      <section class="stats">
+        <div class="stat"><b>2</b><span>Enforced workflows</span></div>
+        <div class="stat"><b>8</b><span>Pilot feature tasks</span></div>
+        <div class="stat"><b>Fresh</b><span>Session per attempt</span></div>
+        <div class="stat"><b>Blind</b><span>Automated + human judging</span></div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Decision snapshot.</h2><p>Recommended first experiment</p></div>
+        <div class="callout decision"><h3>Use a fresh benchmark repo first; validate on your real repo second.</h3><p>A controlled domain-realistic repo lets us pre-write hidden tests, reset identical baselines, and avoid production history leaking the intended implementation. It should still generate real <code>.docx</code> files and inspect their OOXML. After the pilot works, repeat two representative tasks against your existing Markdown→DOCX repository.</p></div>
+        <div class="grid">
+          <article class="card"><h3>Why not one fake feature?</h3><ul><li>One task is dominated by luck and prompt interpretation.</li><li>A trivial toy rewards fast coding, not maintainability or regression control.</li><li>A single judge preference cannot establish which workflow is better.</li><li>Use several task shapes and compare paired outcomes.</li></ul></article>
+          <article class="card"><h3>What the pilot answers</h3><ul><li>Does enforced test-first improve hidden acceptance?</li><li>Does it reduce regressions and reviewer-found defects?</li><li>Are its generated tests better at detecting mutations?</li><li>Is any quality gain worth extra tokens and wall time?</li></ul></article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>The two arms.</h2><p>Same task, budget, model and baseline</p></div>
+        <div class="arm-grid">
+          <article class="arm"><span class="arm-label">Arm T · test-first</span><h3>RED → GREEN → REFACTOR</h3><ol><li>Inspect repository and requirement.</li><li>Add public tests only; implementation edits forbidden.</li><li>Run tests and save evidence of the expected failure.</li><li>Commit the test-only checkpoint.</li><li>Implement the smallest complete fix.</li><li>Run public suite, refactor, and submit.</li></ol></article>
+          <article class="arm"><span class="arm-label">Arm I · implementation-first</span><h3>BUILD → TEST → REFACTOR</h3><ol><li>Inspect repository and requirement.</li><li>Implement first; test-file edits forbidden.</li><li>Run existing checks and save the implementation checkpoint.</li><li>Commit the implementation-only checkpoint.</li><li>Add tests afterward.</li><li>Run public suite, refactor, and submit.</li></ol></article>
+        </div>
+        <div class="callout"><h3>Enforce the workflow mechanically.</h3><p>The runner records file changes and commits at each phase. A session that edits forbidden paths, skips the red proof, reads hidden tests, or exceeds the shared budget is marked protocol-invalid—not quietly counted as a normal failure.</p></div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Experimental flow.</h2><p>No cross-session memory</p></div>
+        <div class="bench-flow" aria-label="One paired task"><div>Freeze base + hidden oracle</div><div>Fresh Codex · Arm T</div><div>Fresh Codex · Arm I</div><div class="active">Run hidden evaluation</div><div>Anonymise A/B artifacts</div><div>Blind Codex + human review</div></div>
+        <div class="boundary-stack">
+          <div class="boundary-row"><b>Task manifest</b><span>Same requirement, base SHA, timeout, model settings and tool policy.</span></div>
+          <div class="worktrees"><div>Clean worktree T</div><div>Clean worktree I</div></div>
+          <div class="boundary-row"><b>Evaluator</b><span>Read-only hidden tests; captures score, cost, time, logs and protocol validity.</span></div>
+          <div class="boundary-row"><b>Judge packets</b><span>Workflow labels removed; presentation order reversed across judge sessions.</span></div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Benchmark task set.</h2><p>Realistic, independently scorable</p></div>
+        <div class="grid">
+          <article class="card"><h3>Pilot tasks 01–04</h3><ul><li><b>Nested ordered lists:</b> preserve start values and indentation in OOXML.</li><li><b>Code blocks:</b> language-aware style, whitespace preservation, no accidental paragraph splitting.</li><li><b>Tables:</b> alignment, empty cells, escaping, and deterministic column widths.</li><li><b>Links:</b> external hyperlinks, fragments, malformed URLs, and relationship deduplication.</li></ul></article>
+          <article class="card"><h3>Pilot tasks 05–08</h3><ul><li><b>Images:</b> local assets, missing files, size limits, and descriptive errors.</li><li><b>Footnotes:</b> repeated references, numbering, and OOXML relationships.</li><li><b>Metadata:</b> title/author fields without nondeterministic output changes.</li><li><b>Regression repair:</b> a seeded bug spanning parser, document model, and renderer.</li></ul></article>
+        </div>
+        <div class="callout"><h3>Task construction rule.</h3><p>Each task gets a visible specification, visible starter tests, a private acceptance suite, and several seeded edge cases. Hidden assertions must test observable DOCX/OOXML behavior—not require the evaluator author’s preferred internal architecture.</p></div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Repository shape.</h2><p>Small enough to run; real enough to matter</p></div>
+        <div class="repo-list">
+          <div><code>benchmark.yaml</code><span>Model, budgets, repetitions and randomized task order.</span></div>
+          <div><code>src/md_docx/</code><span>Parser, document model and OOXML renderer.</span></div>
+          <div><code>tests/public/</code><span>Visible baseline and agent-authored tests.</span></div>
+          <div><code>private_tests/</code><span>Acceptance oracle excluded from agent worktrees.</span></div>
+          <div><code>tasks/*/task.yaml</code><span>Prompt, base SHA, protocol and acceptance rubric.</span></div>
+          <div><code>evaluator/</code><span>Runner, workflow checks, anonymiser and scorer.</span></div>
+          <div><code>judge/</code><span>Blind rubric, packet generator and reversed-order judge runner.</span></div>
+          <div><code>runs/ · reports/</code><span>Immutable JSONL evidence plus generated HTML/CSV summaries.</span></div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Scoring hierarchy.</h2><p>Machines first, taste second</p></div>
+        <div class="metric-table">
+          <div class="metric-row"><b>Hidden acceptance</b><p>Pass fraction across task-specific private tests plus the unchanged regression suite. A task is “solved” only if all critical acceptance cases pass.</p><span>Primary</span></div>
+          <div class="metric-row"><b>Protocol validity</b><p>Correct phase ordering, genuine red failure for Arm T, no forbidden edits, no hidden-test access, and budget compliance.</p><span>Gate</span></div>
+          <div class="metric-row"><b>Test strength</b><p>Mutation score on relevant code plus whether agent tests catch evaluator-seeded faults without overfitting implementation details.</p><span>Secondary</span></div>
+          <div class="metric-row"><b>Efficiency</b><p>Tokens, estimated API cost, wall time, tool calls, retries, and accepted solutions per unit cost.</p><span>Secondary</span></div>
+          <div class="metric-row"><b>Engineering quality</b><p>Blind rubric: correctness risks, clarity, scope discipline, API compatibility, maintainability, and test quality.</p><span>Judge</span></div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Blind judging.</h2><p>Codex opinion is evidence, not ground truth</p></div>
+        <div class="grid">
+          <article class="card"><h3>Codex judge sessions</h3><ul><li>Use fresh sessions that did not implement either candidate.</li><li>Rename candidates A/B and remove workflow/commit-message clues.</li><li>Give requirement, relevant diff, public test output, and rubric.</li><li>Run one packet as A/B and another as B/A to expose position bias.</li><li>Require per-criterion scores and cited file/line evidence.</li></ul></article>
+          <article class="card"><h3>Your human review</h3><ul><li>Review blind before seeing which arm produced each candidate.</li><li>Record scores before discussing results with any judge.</li><li>Flag whether you would merge it, request changes, or reject it.</li><li>Reveal the arm only after automated and qualitative scores lock.</li><li>Keep disagreements; do not force one synthetic consensus score.</li></ul></article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Build sequence.</h2><p>Six reviewable milestones</p></div>
+        <vp-progress data='{"done":0,"total":6,"milestones":["Repo","Tasks","Runner","Judges","Pilot","Real repo"]}'></vp-progress>
+        <div class="timeline" style="border-top:0">
+          <article class="tl-step now"><span class="tl-num">01</span><div><h3>Freeze the benchmark contract</h3><p>Write the hypothesis, arm protocols, invalid-run rules, model settings, timeout/token budget, metric schema, and judge rubric before seeing outcomes.</p><p><code>README.md</code> · <code>benchmark.yaml</code> · <code>judge/rubric.md</code></p></div><span class="tl-status">First</span></article>
+          <article class="tl-step"><span class="tl-num">02</span><div><h3>Build the domain-realistic base repo</h3><p>Create a small Markdown→DOCX converter with deterministic OOXML inspection, a clean baseline suite, task branches/patches, and private evaluator tests stored outside agent worktrees.</p><p><code>src/md_docx/</code> · <code>tests/public/</code> · <code>private_tests/</code></p></div><span class="tl-status">Fixture</span></article>
+          <article class="tl-step"><span class="tl-num">03</span><div><h3>Implement the paired runner</h3><p>Launch fresh Codex sessions in clean worktrees, enforce phase-specific writable paths, capture checkpoints/logs/cost/time, run hidden tests, and emit one immutable JSON result per attempt.</p><p><code>evaluator/run_attempt.py</code> · <code>evaluator/score.py</code> · <code>runs/*.json</code></p></div><span class="tl-status">Harness</span></article>
+          <article class="tl-step"><span class="tl-num">04</span><div><h3>Generate blind judge packets</h3><p>Normalize diffs, strip arm labels, randomize candidate IDs, reverse presentation order across independent Codex judges, and keep an encrypted/private reveal map until reviews lock.</p><p><code>judge/make_packets.py</code> · <code>judge/run_judges.py</code></p></div><span class="tl-status">Bias control</span></article>
+          <article class="tl-step"><span class="tl-num">05</span><div><h3>Run the eight-task pilot</h3><p>Execute both arms on every task with identical settings. Start with one attempt per arm; repeat ambiguous or failed pairs under predeclared retry rules, then generate paired scorecards.</p><p><code>python -m evaluator run --config benchmark.yaml</code> · <code>python -m evaluator report</code></p></div><span class="tl-status">Experiment</span></article>
+          <article class="tl-step"><span class="tl-num">06</span><div><h3>Validate against your real repository</h3><p>Select two new, non-production-critical Markdown→DOCX issues, create hidden acceptance tests on a private evaluator branch, repeat both arms, and compare whether the synthetic benchmark predicted real-repo outcomes.</p><p>Existing repo · temporary worktrees · no merge during evaluation</p></div><span class="tl-status">External validity</span></article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Validity risks.</h2><p>What could fool us</p></div>
+        <div class="grid">
+          <article class="card"><h3>Judge circularity</h3><ul><li>Codex judging Codex may prefer its own style.</li><li>Mitigation: hidden behavior is primary; human review stays independent.</li></ul></article>
+          <article class="card"><h3>Workflow leakage</h3><ul><li>Tests, commit order, or comments may reveal the arm.</li><li>Mitigation: normalize packets and score judge position consistency.</li></ul></article>
+          <article class="card"><h3>Task contamination</h3><ul><li>Agents may know common public challenge solutions.</li><li>Mitigation: author original domain tasks and private edge cases.</li></ul></article>
+          <article class="card"><h3>Overclaiming</h3><ul><li>Eight tasks cannot prove universal agent behavior.</li><li>Mitigation: call it a pilot, publish paired outcomes, then scale tasks/models.</li></ul></article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Go / no-go rule.</h2><p>Declare before running</p></div>
+        <div class="callout"><h3>Prefer test-first only if it wins on accepted solutions—not aesthetics alone.</h3><p>Adopt Agent TDD as the default if Arm T solves more paired tasks under hidden acceptance and does not impose an unacceptable cost/time penalty. If correctness ties, use mutation strength, regressions, and blind merge decisions as tie-breakers. If results split by task type, adopt a routing policy instead of declaring one universal winner.</p></div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Approval to proceed.</h2><p>What your “yes” unlocks</p></div>
+        <div class="callout"><h3>Approve the synthetic-first Codex pilot.</h3><p>Next we create the benchmark repository and freeze its protocol before any agent sees a task. No production code is changed, no benchmark result is predetermined, and your existing Markdown→DOCX repo is only used after the harness proves it can run cleanly.</p></div>
+      </section>
+
+      <footer class="footer"><span>Visual Plan · Agent TDD Benchmark</span><span>Paired · hidden-test-led · human-reviewed</span></footer>
+    </main>
+  </body>
+</html>
