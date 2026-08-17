@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#141414" />
+    <meta name="description" content="A secure invite-only beta flow for Oikina: name in, one-time API key out, then deploy from the CLI." />
+    <title>Oikina invite-only beta — Visual Plan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" />
+    <link rel="stylesheet" href="/styles.css" />
+    <style>
+      :root { --accent: #9ee7bf; --warn: #e5ca85; --danger: #ee9e9e; }
+      .decision-banner { border: 1px solid rgba(158,231,191,.28); background: rgba(158,231,191,.045); padding: 22px 24px; margin: 0 0 56px; }
+      .decision-banner b { color: var(--accent); }
+      .decision-banner p { margin: 7px 0 0; color: var(--muted); }
+      .decision-grid { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line); }
+      .decision { padding: 24px; min-height: 150px; border-right: 1px solid var(--line); }
+      .decision:last-child { border-right: 0; }
+      .decision .kicker, .phase .kicker, .risk .kicker { display:block; color:var(--faint); font-size:10px; text-transform:uppercase; letter-spacing:.15em; margin-bottom:14px; }
+      .decision h3 { margin:0 0 10px; font: 500 17px/1.3 var(--display); }
+      .decision p { margin:0; color:var(--muted); font-size:13px; }
+      .journey { display:grid; grid-template-columns: repeat(5, 1fr); border:1px solid var(--line); overflow:hidden; }
+      .journey-step { position:relative; min-height:155px; padding:23px 20px; border-right:1px solid var(--line); }
+      .journey-step:last-child { border-right:0; }
+      .journey-step:not(:last-child)::after { content:"→"; position:absolute; right:-10px; top:27px; z-index:2; width:20px; text-align:center; color:var(--accent); background:var(--bg); }
+      .journey-step strong { display:block; font:500 14px/1.4 var(--display); margin:13px 0 8px; }
+      .journey-step p { margin:0; color:var(--muted); font-size:12px; }
+      .journey-num { color:var(--accent); font:500 11px var(--display); letter-spacing:.12em; }
+      .cmd { margin-top:24px; padding:20px 22px; border:1px solid var(--line); background:#101010; overflow:auto; }
+      .cmd code { white-space:pre; color:#d8d6d0; font:12px/1.8 ui-monospace,SFMono-Regular,Menlo,monospace; }
+      .architecture { display:grid; grid-template-columns: 1fr 42px 1fr 42px 1fr; align-items:stretch; }
+      .arch-node { border:1px solid var(--line); padding:22px; background:var(--bg-raised); }
+      .arch-node.highlight { border-color:rgba(158,231,191,.35); }
+      .arch-node span { color:var(--faint); font-size:10px; text-transform:uppercase; letter-spacing:.13em; }
+      .arch-node h3 { margin:10px 0 8px; font:500 16px var(--display); }
+      .arch-node p { margin:0; color:var(--muted); font-size:12px; }
+      .arch-arrow { display:flex; align-items:center; justify-content:center; color:var(--accent); }
+      .boundary { margin-top:18px; padding:18px 20px; border-left:2px solid var(--accent); background:rgba(255,255,255,.02); color:var(--muted); font-size:13px; }
+      .boundary b { color:var(--text); }
+      .phases { border-top:1px solid var(--line); }
+      .phase { display:grid; grid-template-columns:54px minmax(190px,.72fr) 1.28fr 150px; gap:20px; padding:28px 4px; border-bottom:1px solid var(--line); align-items:start; }
+      .phase-num { color:var(--accent); font:500 12px var(--display); }
+      .phase h3 { margin:0 0 8px; font:500 16px var(--display); }
+      .phase p { margin:0; color:var(--muted); font-size:13px; }
+      .phase ul { margin:0; padding-left:18px; color:var(--muted); font-size:13px; }
+      .phase li + li { margin-top:7px; }
+      .phase .proof { font-size:11px; color:var(--faint); }
+      .chip { display:inline-flex; align-items:center; min-height:25px; padding:3px 9px; border:1px solid var(--line); color:var(--muted); font-size:10px; letter-spacing:.08em; text-transform:uppercase; }
+      .chip.ready { color:var(--accent); border-color:rgba(158,231,191,.28); }
+      .files { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:24px; }
+      .file { border:1px solid var(--line); padding:16px 18px; }
+      .file code { color:var(--text); font-size:11px; word-break:break-word; }
+      .file span { display:block; color:var(--faint); margin-top:6px; font-size:11px; }
+      .risks { display:grid; grid-template-columns:repeat(2,1fr); border:1px solid var(--line); }
+      .risk { padding:23px; border-right:1px solid var(--line); border-bottom:1px solid var(--line); }
+      .risk:nth-child(2n) { border-right:0; }
+      .risk:nth-last-child(-n+2) { border-bottom:0; }
+      .risk h3 { margin:0 0 8px; font:500 15px var(--display); }
+      .risk p { margin:0; color:var(--muted); font-size:12px; }
+      .not-now { color:var(--warn); }
+      .approval { border:1px solid rgba(158,231,191,.3); padding:28px; background:rgba(158,231,191,.035); }
+      .approval h3 { margin:0 0 10px; font:500 20px var(--display); }
+      .approval p { margin:0 0 18px; color:var(--muted); max-width:720px; }
+      @media (max-width: 760px) {
+        .decision-grid, .journey, .risks, .files { grid-template-columns:1fr; }
+        .decision, .journey-step, .risk { border-right:0; border-bottom:1px solid var(--line); min-height:auto; }
+        .decision:last-child, .journey-step:last-child, .risk:last-child { border-bottom:0; }
+        .risk:nth-last-child(2) { border-bottom:1px solid var(--line); }
+        .journey-step:not(:last-child)::after { content:"↓"; top:auto; bottom:-12px; left:25px; right:auto; background:var(--bg); }
+        .architecture { grid-template-columns:1fr; }
+        .arch-arrow { min-height:34px; transform:rotate(90deg); }
+        .phase { grid-template-columns:38px 1fr; gap:12px; }
+        .phase > ul, .phase > .proof { grid-column:2; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dots"></div>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="/">mohtasham<span>.dev</span></a>
+        <span class="tag"><span class="dot"></span>Proposed · approval required</span>
+      </header>
+
+      <section class="report-head">
+        <div>
+          <a class="back" href="/">← All plans</a>
+          <div class="eyebrow">Oikina beta · 17 Aug 2026</div>
+          <h1>One invite link.<br />One CLI credential.</h1>
+          <p class="lede">A friend opens a private link, enters a display name, receives a revocable API key once, and deploys from the existing Oikina CLI. No password database and no deployment dashboard in beta v1.</p>
+        </div>
+        <aside class="report-aside">
+          <div class="vp-label">Recommended scope</div>
+          <div style="font:500 42px/1 var(--display); margin:10px 0 14px">6</div>
+          <p style="margin:0;color:var(--muted);font-size:13px">implementation milestones<br />behind one controlled rollout</p>
+        </aside>
+      </section>
+
+      <section class="details">
+        <div class="detail"><span>Source reviewed</span><b>oikina · origin/main</b></div>
+        <div class="detail"><span>Current CLI</span><b>login + deploy already exist</b></div>
+        <div class="detail"><span>Beta target</span><b>Invite-only friends</b></div>
+        <div class="detail"><span>Dashboard</span><b>Deferred</b></div>
+      </section>
+
+      <div class="decision-banner">
+        <b>Recommendation: do not ask beta users to create passwords.</b>
+        <p>The invite itself proves eligibility. Issue a random, expiring CLI credential and show it once. Add account passwords or passwordless sign-in only when Oikina ships a user-facing dashboard that needs repeat browser sessions.</p>
+      </div>
+
+      <section>
+        <div class="section-head"><h2>Product decisions.</h2><p>Minimal, but not shared-secret minimal</p></div>
+        <div class="decision-grid">
+          <article class="decision"><span class="kicker">Identity</span><h3>Name only</h3><p>Store a display name for support and audit records. Internal tenant and principal IDs stay random and non-guessable.</p></article>
+          <article class="decision"><span class="kicker">Credential</span><h3>API key, shown once</h3><p>Use the existing <code>oikina_…</code> shape, scrypt hashing, mandatory expiry, revocation, and last-used metadata.</p></article>
+          <article class="decision"><span class="kicker">Isolation</span><h3>One tenant per friend</h3><p>Each credential can create and update only that tenant’s app slugs. No beta user shares Mohtasham’s operator token.</p></article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>The beta-user journey.</h2><p>Under two minutes</p></div>
+        <div class="journey">
+          <article class="journey-step"><span class="journey-num">01</span><strong>Receive link</strong><p>A one-use invite expires after 7 days and is delivered privately.</p></article>
+          <article class="journey-step"><span class="journey-num">02</span><strong>Enter name</strong><p>No email, ID, or password required for this small controlled beta.</p></article>
+          <article class="journey-step"><span class="journey-num">03</span><strong>Copy API key</strong><p>The key appears exactly once; the stored record contains only its hash.</p></article>
+          <article class="journey-step"><span class="journey-num">04</span><strong>Log in via CLI</strong><p>The CLI validates expiry and revocation before saving mode-0600 credentials.</p></article>
+          <article class="journey-step"><span class="journey-num">05</span><strong>Deploy</strong><p>CLI prints the live URL. A dashboard is not needed for v1.</p></article>
+        </div>
+        <div class="cmd"><code>npx oikina login oikina_••••••••••••_•••••••••••••••••••••••••••••••••••••••••••
+npx oikina deploy
+# ✓ deployed https://my-app-••••.oikina.com</code></div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Architecture.</h2><p>Keep public enrollment away from deployment authority</p></div>
+        <div class="architecture">
+          <article class="arch-node"><span>Public surface</span><h3>Invite redemption page</h3><p>Captures the token from the URL fragment, clears it immediately, accepts a bounded display name, and disables caching.</p></article>
+          <div class="arch-arrow">→</div>
+          <article class="arch-node highlight"><span>Private authority</span><h3>Control-plane API</h3><p>Consumes the invite transactionally, creates tenant + principal, hashes the deploy key, records audit metadata, and later authorizes deploy targets.</p></article>
+          <div class="arch-arrow">→</div>
+          <article class="arch-node"><span>Existing data plane</span><h3>Hosted Runtime</h3><p>Asks the private control API whether this key owns the requested slug, then keeps the filesystem registry as deployment activation authority.</p></article>
+        </div>
+        <div class="boundary"><b>Important current-state constraint:</b> Oikina’s PostgreSQL control-plane package already models principals and secure deploy credentials, but current <code>main</code> documents it as separate from the live filesystem-backed Hosted Runtime. This beta must therefore include an explicit, tested authorization cutover—not just a signup form.</div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Implementation roadmap.</h2><p>TDD · feature → staging → main</p></div>
+        <div class="phases">
+          <article class="phase"><span class="phase-num">01</span><div><span class="kicker">Schema</span><h3>Model invites and tenant ownership</h3><p>Add one-use invite records and make deployment ownership unambiguous.</p></div><ul><li>Store invite prefix + scrypt hash, expiry, creator, consumed/revoked timestamps.</li><li>Create one organization and principal per accepted friend.</li><li>Make deploy-token prefixes discoverable globally without storing raw keys.</li><li>Enforce global app slug ownership before the live cutover.</li></ul><span class="proof">Migration tests + disposable PostgreSQL integration</span></article>
+          <article class="phase"><span class="phase-num">02</span><div><span class="kicker">Domain service</span><h3>Redeem exactly once</h3><p>One transaction turns an unused invite into a tenant, principal, and credential.</p></div><ul><li>Reject expired, revoked, malformed, replayed, or concurrent redemption.</li><li>Bound and normalize display names without deriving public slugs from them.</li><li>Return the raw deploy key once; audit only safe IDs and public prefixes.</li></ul><span class="proof">Race test: 20 redeemers → exactly 1 success</span></article>
+          <article class="phase"><span class="phase-num">03</span><div><span class="kicker">Enrollment UI</span><h3>Ship the one-link claim page</h3><p>A tiny page in Console, not a new user dashboard.</p></div><ul><li>Use <code>/beta/redeem#&lt;invite&gt;</code> so reverse-proxy logs do not capture the secret.</li><li>Clear the fragment before network requests; no third-party scripts or analytics.</li><li>Use <code>no-store</code>, <code>Referrer-Policy: no-referrer</code>, CSRF/origin checks, rate limits, and one-time key disclosure.</li></ul><span class="proof">Browser E2E + back/refresh/BFCache leak checks</span></article>
+          <article class="phase"><span class="phase-num">04</span><div><span class="kicker">Private API</span><h3>Authorize CLI deployments</h3><p>Connect secure credential metadata to the filesystem-backed deploy path.</p></div><ul><li>Run a private control-plane API; PostgreSQL remains private and never reaches browser code.</li><li>Hosted Runtime submits bearer credential + manifest slug over the private service channel.</li><li>First deploy claims an unused global slug; later deploys require the same tenant.</li><li>Fail closed on auth-service outage; retain owner token only as a documented break-glass credential.</li></ul><span class="proof">Cross-tenant overwrite and slug-race tests</span></article>
+          <article class="phase"><span class="phase-num">05</span><div><span class="kicker">CLI + operations</span><h3>Validate before saving</h3><p>Make onboarding fail early and give Mohtasham basic beta controls.</p></div><ul><li><code>oikina login</code> calls a safe validation endpoint before writing credentials.</li><li>Add owner-only invite issue/list/revoke commands or script; no admin UI yet.</li><li>Default: invite 7 days, deploy key 30 days, manual reissue, immediate revoke.</li><li>Never print keys in logs, argv-based admin automation, telemetry, or audit JSON.</li></ul><span class="proof">Packed CLI smoke + revoke/expiry checks</span></article>
+          <article class="phase"><span class="phase-num">06</span><div><span class="kicker">Rollout</span><h3>Release to a tiny cohort</h3><p>Start with two friends, then widen only after clean evidence.</p></div><ul><li>Backup control-plane DB and filesystem registry; backfill and verify existing app ownership.</li><li>Canary new auth with feature flag, then remove broad beta access to the shared token.</li><li>Run real signup → login → deploy → redeploy → revoke E2E.</li><li>Track only aggregate success/failure and safe IDs; no raw invite or credential material.</li></ul><span class="proof">2-user canary → 10-user beta after 48h</span></article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Likely source changes.</h2><p>Exact paths to confirm at implementation head</p></div>
+        <div class="files">
+          <div class="file"><code>packages/control-plane/migrations/004_beta_invites.sql</code><span>Invites, tenant ownership, global credential lookup constraints.</span></div>
+          <div class="file"><code>packages/control-plane/beta-invites.ts</code><span>Issue, redeem, revoke, and concurrency-safe service.</span></div>
+          <div class="file"><code>packages/control-plane/repository.ts</code><span>Tenant/principal creation and slug claim transactions.</span></div>
+          <div class="file"><code>apps/control-plane-api/*</code><span>Private enrollment and deployment-authorization endpoints.</span></div>
+          <div class="file"><code>apps/console/app/beta/redeem/*</code><span>Name form and one-time credential disclosure.</span></div>
+          <div class="file"><code>apps/hosted-runtime/server.ts</code><span>Private authorization call before deployment mutation.</span></div>
+          <div class="file"><code>packages/cli/src/cli.ts</code><span>Validate credential before mode-0600 persistence.</span></div>
+          <div class="file"><code>infra/ + apps/docs/ + CHANGELOG.md</code><span>Private networking, rollback, operator runbook, beta docs.</span></div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Security and product risks.</h2><p>What can sink a “simple” invite flow</p></div>
+        <div class="risks">
+          <article class="risk"><span class="kicker">P1 · tenant escape</span><h3>One friend overwrites another app</h3><p>Mitigate with tenant-derived authorization, global slug claims, transactional first-deploy ownership, and adversarial cross-tenant tests.</p></article>
+          <article class="risk"><span class="kicker">P1 · secret leakage</span><h3>Invite or API key lands in logs</h3><p>Use URL fragments, no-referrer/no-store headers, one-time disclosure, secret-key audit guards, and log/telemetry regression scans.</p></article>
+          <article class="risk"><span class="kicker">P1 · split authority</span><h3>PostgreSQL and filesystem disagree</h3><p>Keep PostgreSQL as authorization/ownership metadata and the filesystem as activation authority; define compensating retry and fail-closed behavior.</p></article>
+          <article class="risk"><span class="kicker">P2 · support load</span><h3>User loses the one-time key</h3><p>Do not recover raw keys. Revoke and issue a replacement through the owner-only flow.</p></article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Explicitly not in beta v1.</h2><p>Protect the small scope</p></div>
+        <div class="grid">
+          <article class="card"><h3 class="not-now">No password accounts</h3><ul><li>No password hashing/reset emails.</li><li>No social login or SSO.</li><li>No persistent browser account session.</li></ul></article>
+          <article class="card"><h3 class="not-now">No user dashboard</h3><ul><li>No deployment list or release history UI.</li><li>No billing, teams, roles, or custom domains.</li><li>The CLI response is the deployment receipt.</li></ul></article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Approval gate.</h2><p>What “start” authorizes</p></div>
+        <div class="approval">
+          <h3>Approve the recommended no-password beta</h3>
+          <p>Implementation will begin from a fresh feature branch at the latest <code>origin/main</code>, preserve Oikina’s protected <code>feature → staging → main</code> flow, and stop before production cutover until the two-user canary and independent security review are clean.</p>
+          <span class="chip ready">Recommended next message: Start</span>
+        </div>
+      </section>
+
+      <footer class="footer"><span>Visual Plan · Oikina invite-only beta</span><span>Prepared by Ren · current main reviewed</span></footer>
+    </main>
+  </body>
+</html>
