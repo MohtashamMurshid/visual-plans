@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#141414" />
+    <meta name="description" content="Evidence-backed adoption plan for Bun 1.4 in @mohtasham/md-to-docx." />
+    <title>md-to-docx × Bun 1.4 — Visual Plan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/components.js?v=20260821" defer></script>
+    <style>
+      :root { --good:#9fd0aa; --warn:#d8c48a; --bad:#d99b93; }
+      .verdict { border-left:2px solid var(--good); }
+      .evidence-grid { display:grid; grid-template-columns:repeat(4,1fr); border:1px solid var(--line); }
+      .evidence { padding:24px 20px; min-width:0; border-right:1px solid var(--line-soft); }
+      .evidence:last-child { border-right:0; }
+      .evidence b { display:block; font:500 27px/1 var(--display); margin-bottom:10px; }
+      .evidence span { color:var(--muted); font-size:11px; line-height:1.45; }
+      .matrix { border:1px solid var(--line); }
+      .matrix-row { display:grid; grid-template-columns:180px 105px 1fr; gap:22px; padding:19px 22px; border-bottom:1px solid var(--line-soft); align-items:start; }
+      .matrix-row:last-child { border-bottom:0; }
+      .matrix-row b { font-family:var(--display); font-weight:500; }
+      .pill { width:max-content; border:1px solid currentColor; padding:3px 8px; border-radius:999px; font-size:9px; letter-spacing:.12em; text-transform:uppercase; }
+      .pill.yes { color:var(--good); } .pill.later { color:var(--warn); } .pill.no { color:var(--bad); }
+      .matrix-row p { margin:0; color:var(--muted); font-size:12px; }
+      .compare { display:grid; grid-template-columns:1fr 1fr; border:1px solid var(--line); }
+      .compare article { padding:28px; min-width:0; }
+      .compare article + article { border-left:1px solid var(--line-soft); }
+      .compare h3 { margin-top:0; font:500 21px/1.2 var(--display); }
+      .compare ul { margin:0; padding-left:18px; color:var(--muted); }
+      .compare li { padding:6px 0; }
+      .architecture { border:1px solid var(--line); }
+      .arch-row { display:grid; grid-template-columns:1fr auto 1fr auto 1fr; align-items:center; gap:14px; padding:26px; }
+      .arch-node { min-height:82px; display:flex; flex-direction:column; justify-content:center; padding:16px; background:var(--bg-raised); border:1px solid var(--line); }
+      .arch-node b { font-family:var(--display); font-weight:500; }
+      .arch-node span { color:var(--muted); font-size:11px; margin-top:5px; }
+      .arch-arrow { color:var(--faint); }
+      .guardrail { padding:18px 24px; border-top:1px solid var(--line-soft); color:var(--muted); font-size:12px; }
+      .source-list { border-top:1px solid var(--line); }
+      .source-list a { display:grid; grid-template-columns:170px 1fr; gap:22px; padding:17px 5px; border-bottom:1px solid var(--line); text-decoration:none; }
+      .source-list b { font-family:var(--display); font-weight:500; }
+      .source-list span { color:var(--muted); overflow-wrap:anywhere; }
+      .theme-toggle { appearance:none; border:1px solid var(--line); color:var(--muted); background:var(--bg-raised); padding:7px 10px; font:10px var(--sans); letter-spacing:.12em; text-transform:uppercase; cursor:pointer; }
+      html[data-theme="light"] { --bg:#f4f3ef; --bg-raised:#ffffff; --line:rgba(20,20,20,.15); --line-soft:rgba(20,20,20,.09); --text:#181816; --muted:#5e5d58; --faint:#8b8982; }
+      html[data-theme="light"] .dots { background-image:radial-gradient(rgba(20,20,20,.14) 1px,transparent 1px); }
+      @media (prefers-color-scheme:light) {
+        html:not([data-theme="dark"]) { --bg:#f4f3ef; --bg-raised:#ffffff; --line:rgba(20,20,20,.15); --line-soft:rgba(20,20,20,.09); --text:#181816; --muted:#5e5d58; --faint:#8b8982; }
+      }
+      @media (max-width:760px) {
+        .evidence-grid { grid-template-columns:1fr 1fr; }
+        .evidence:nth-child(2) { border-right:0; } .evidence:nth-child(-n+2) { border-bottom:1px solid var(--line-soft); }
+        .matrix-row { grid-template-columns:1fr; gap:8px; }
+        .compare { grid-template-columns:1fr; }
+        .compare article + article { border-left:0; border-top:1px solid var(--line-soft); }
+        .arch-row { grid-template-columns:1fr; }
+        .arch-arrow { transform:rotate(90deg); text-align:center; }
+        .source-list a { grid-template-columns:1fr; gap:5px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dots"></div>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="/">mohtasham<span>.dev</span></a>
+        <button class="theme-toggle" id="theme-toggle" type="button">Light / dark</button>
+      </header>
+
+      <section class="report-head">
+        <div>
+          <a class="back" href="/">← All plans</a>
+          <div class="eyebrow">Runtime decision · 21 Aug 2026</div>
+          <h1>How md-to-docx should—and should not—use Bun 1.4.</h1>
+          <p class="lede">Add Bun as a supported, measured runtime without weakening Node/browser compatibility or replacing the package’s Markdown AST and secure image pipeline prematurely.</p>
+        </div>
+        <aside class="report-aside">
+          <div class="pilot-score"><span>Recommendation</span><b style="font-size:43px;color:var(--good)">Tier 2</b><p>Support now · do not migrate core yet</p></div>
+        </aside>
+      </section>
+
+      <section class="details">
+        <div class="detail"><span>Package</span><b>@mohtasham/md-to-docx 3.0.1</b></div>
+        <div class="detail"><span>Audited commit</span><b>18ee62d · main</b></div>
+        <div class="detail"><span>Current contract</span><b>Node 18+ · browser · ESM</b></div>
+        <div class="detail"><span>Decision</span><b>Dual-runtime evidence lane</b></div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Decision snapshot.</h2><p>The short answer</p></div>
+        <div class="callout verdict"><h3>Adopt Bun 1.4 as an optional runtime and CI target—not as the package’s new foundation.</h3><p>Bun 1.4 already installs the packed package, imports the library, and runs the CLI successfully. It also cut one local cold CLI sample by 38.1%. But the full native Bun test run exposed one abort-propagation mismatch in the remote-image path, while Node/Jest remains fully green. Keep Node as the compatibility baseline; promote Bun only after the security-sensitive suite is clean.</p></div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Measured evidence.</h2><p>Fresh checkout · Linux x64 · Bun 1.4.0</p></div>
+        <div class="evidence-grid">
+          <div class="evidence"><b>Pass</b><span>packed install + library import + CLI-generated DOCX</span></div>
+          <div class="evidence"><b>243/244</b><span>native Bun tests passed with <code>--parallel=4</code></span></div>
+          <div class="evidence"><b>2.75s</b><span>Bun native suite; not comparable 1:1 with ts-jest compilation</span></div>
+          <div class="evidence"><b>1.62×</b><span>sample CLI speedup: 438.9ms vs 709.4ms median</span></div>
+        </div>
+        <div class="callout"><h3>Interpret the benchmark narrowly.</h3><p>The seven-run CLI sample proves a worthwhile optimization hypothesis, not a universal performance claim. Add representative small, large, image-heavy, reference-DOCX, and multi-section fixtures before publishing speed numbers.</p></div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Where Bun 1.4 benefits us.</h2><p>Use the parts that fit the product</p></div>
+        <div class="matrix">
+          <div class="matrix-row"><b>Runtime + CLI</b><span class="pill yes">Use now</span><p>Offer documented <code>bunx @mohtasham/md-to-docx</code> and Bun library usage after CI proves the packed artifact. Faster Linux startup can matter for one-shot conversions and serverless jobs.</p></div>
+          <div class="matrix-row"><b>CI compatibility</b><span class="pill yes">Use now</span><p>Move the existing consumer lane from Bun 1.3.13 to 1.4.0 and add an explicit native-runtime lane. Bun’s larger Node-compatibility surface reduces friction, but our own tests remain the acceptance oracle.</p></div>
+          <div class="matrix-row"><b>Parallel tests</b><span class="pill later">After fix</span><p><code>bun test --parallel</code> ran the suite quickly and merged worker output. Use it as fast feedback once 244/244 pass; keep canonical Jest on Node until parity is sustained.</p></div>
+          <div class="matrix-row"><b>Package hygiene</b><span class="pill later">Evaluate</span><p><code>bun audit fix</code>, <code>bun dedupe --check</code>, and <code>bun prune --production</code> can simplify Bun-native apps. They should not create a second authoritative lockfile in this npm-published library without a deliberate package-manager policy.</p></div>
+          <div class="matrix-row"><b>Bun.Image</b><span class="pill later">Experiment</span><p>Potential optional server-only adapter for decode/resize/transcode benchmarks. It may help image-heavy conversions, but must preserve image bytes, dimensions, accessibility metadata, limits, and browser builds.</p></div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Where Bun does not benefit us.</h2><p>Avoid attractive rewrites with negative product value</p></div>
+        <div class="compare">
+          <article><h3>Do not replace the Markdown parser.</h3><ul><li><code>Bun.markdown</code> emits HTML, React, or callback-rendered output—not the mdast contract used by the converter.</li><li>The package relies on <code>unified</code>, <code>remark-gfm</code>, <code>remark-math</code>, plugin transforms, captions, cross-references, and custom renderers.</li><li>A Bun-only parser would break the Node/browser portability that is a core selling point.</li><li>Bun warns its HTML output is unsanitized; HTML is not our DOCX intermediate representation anyway.</li></ul></article>
+          <article><h3>Do not replace the secure fetch path.</h3><ul><li>Remote images use Node DNS/net plus an Undici Agent that pins the verified IP while preserving TLS server name.</li><li>This is deliberate SSRF/DNS-rebinding protection, not generic <code>fetch()</code> plumbing.</li><li>The only native Bun failure is in image-abort propagation; that path needs deeper runtime verification before production claims.</li><li><code>Bun.WebView</code>, cron, FFI, and the Zig→Rust rewrite do not improve Markdown→DOCX conversion.</li></ul></article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Target architecture.</h2><p>One package · three environments · no fork</p></div>
+        <div class="architecture">
+          <div class="arch-row">
+            <div class="arch-node"><b>Shared conversion core</b><span>remark/mdast → typed document model → docx</span></div><span class="arch-arrow">→</span>
+            <div class="arch-node"><b>Runtime adapters</b><span>browser-safe image policy · Node secure fetch · optional Bun experiments</span></div><span class="arch-arrow">→</span>
+            <div class="arch-node"><b>Parity gates</b><span>same fixtures · OOXML assertions · package + CLI smoke</span></div>
+          </div>
+          <div class="guardrail"><b>Compatibility rule:</b> no Bun-specific API enters the shared root export unless Node and browser behavior remain unchanged or the API is isolated behind an explicit runtime adapter.</div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Implementation roadmap.</h2><p>Four gated milestones</p></div>
+        <vp-progress data='{"done":0,"total":4,"milestones":["CI","Parity","Benchmark","Decision"]}'></vp-progress>
+        <div class="timeline" style="border-top:0">
+          <article class="tl-step now"><span class="tl-num">01</span><div><h3>Declare Bun 1.4 support without changing the default runtime</h3><p>Update <code>.github/workflows/ci.yml</code> from Bun 1.3.13 to an exact 1.4.0 pin. Keep Node 18/20, <code>npm ci</code>, Jest, lint, TypeScript, and the Next.js browser bundle as required checks. Add README install/CLI examples only after the packed consumer passes on CI.</p><p><code>npm run build</code> · <code>npm run test:package-manager -- bun</code></p></div><span class="tl-status">Low risk</span></article>
+          <article class="tl-step"><span class="tl-num">02</span><div><h3>Close native-runtime parity—especially abort and SSRF behavior</h3><p>Add a Bun 1.4 native lane and reproduce the one failing image-abort test in isolation. Determine whether it is Bun’s Jest spy compatibility, worker isolation, or a real fetch/AbortSignal semantic difference. Add a runtime-neutral test seam only if needed; never weaken DNS pinning, HTTPS-only rules, redirect revalidation, byte limits, or caller cancellation.</p><p><code>bun test tests/processing-limits.test.ts</code> · <code>bun test --parallel=4</code> · gate: 244/244</p></div><span class="tl-status">Blocker</span></article>
+          <article class="tl-step"><span class="tl-num">03</span><div><h3>Build a representative Node vs Bun benchmark</h3><p>Add deterministic fixtures for tiny CLI startup, large Markdown, syntax highlighting, data-URL images, reference-DOCX generation, and multi-section documents. Record warm/cold latency, peak RSS, output validity, and normalized OOXML equivalence. Run enough repetitions and publish medians—not a single marketing number.</p><p><code>bench/runtime.mjs</code> · <code>bench/fixtures/*</code> · JSON result artifact</p></div><span class="tl-status">Evidence</span></article>
+          <article class="tl-step"><span class="tl-num">04</span><div><h3>Choose the supported tier from predeclared gates</h3><p>Promote Bun to a documented first-class runtime only if package/CLI, browser bundling, all correctness tests, and security tests pass, with no output-contract regressions. Keep it Tier 2 if it is useful but needs exceptions. Reject deeper migration if gains are limited to installation/test tooling.</p><p>Decision record · README support matrix · changelog; no Node support drop</p></div><span class="tl-status">Go / no-go</span></article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Acceptance gates.</h2><p>What “Bun supported” must mean</p></div>
+        <div class="grid">
+          <article class="card"><h3>Correctness</h3><ul><li>244/244 native tests pass.</li><li>Packed library import and CLI generate valid ZIP/DOCX.</li><li>Normalized OOXML matches expected semantics.</li><li>Reference-DOCX and browser bundle remain green.</li></ul></article>
+          <article class="card"><h3>Security</h3><ul><li>Abort propagation passes reliably.</li><li>Loopback/private IPs and DNS rebinding stay blocked.</li><li>Redirect, timeout, size, and image-count limits hold.</li><li>No replacement with unpinned generic fetch.</li></ul></article>
+          <article class="card"><h3>Maintenance</h3><ul><li>One authoritative dependency policy.</li><li>Exact Bun version in CI.</li><li>Node baseline remains release-blocking.</li><li>No duplicated parser/runtime code path.</li></ul></article>
+          <article class="card"><h3>Performance</h3><ul><li>Representative fixtures, not one sample.</li><li>Latency and RSS measured separately.</li><li>Output validity checked after every run.</li><li>Claims tied to OS, runtime, fixture, and commit.</li></ul></article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Go / no-go rule.</h2><p>Predeclare the decision</p></div>
+        <div class="callout"><h3>Go now: Bun 1.4 compatibility lane. No-go now: Bun-first rewrite.</h3><p>Ship the low-risk support work if Bun 1.4 passes the existing packed-consumer check. Do not advertise first-class runtime parity until the native suite is fully green. Do not adopt <code>Bun.markdown</code> or Bun-only image primitives unless a separate benchmark proves material benefit without reducing Node/browser reach or security guarantees.</p></div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Sources.</h2><p>Primary evidence</p></div>
+        <div class="source-list">
+          <a href="https://bun.com/1.4"><b>Bun 1.4 release</b><span>bun.com/1.4 — Node compatibility, CPU/memory/startup claims, Bun.markdown, Bun.Image, parallel scripts/tests, package-manager commands</span></a>
+          <a href="https://github.com/MohtashamMurshid/md-to-docx"><b>Package source</b><span>github.com/MohtashamMurshid/md-to-docx — audited main commit 18ee62d</span></a>
+          <a href="https://www.npmjs.com/package/@mohtasham/md-to-docx"><b>Published package</b><span>npmjs.com/package/@mohtasham/md-to-docx</span></a>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Approval to proceed.</h2><p>What “next” unlocks</p></div>
+        <div class="callout"><h3>Implement Milestone 1, then investigate the single parity blocker.</h3><p>The first PR should pin Bun 1.4.0 in CI and preserve every existing Node/browser gate. A second focused change can add the native suite only after the abort behavior is understood and covered. No release or parser rewrite is required for the pilot.</p></div>
+      </section>
+
+      <footer class="footer"><span>Visual Plan · md-to-docx × Bun 1.4</span><span>Support first · measure · preserve portability</span></footer>
+    </main>
+    <script>
+      const root=document.documentElement;
+      const saved=localStorage.getItem('vp-theme');
+      if(saved) root.dataset.theme=saved;
+      document.getElementById('theme-toggle').addEventListener('click',()=>{
+        const next=root.dataset.theme==='light'?'dark':'light';
+        root.dataset.theme=next; localStorage.setItem('vp-theme',next);
+      });
+    </script>
+  </body>
+</html>
